@@ -91,6 +91,7 @@ window.setupInput = () => {
     // --- Settings Controller ---
     const defaultSettings = {
         toggleClassTree: false,
+        autoLevelUp: true,
         censoring: "No censoring"
     };
 
@@ -109,6 +110,7 @@ window.setupInput = () => {
     };
 
     const settingToggleClassTreeEl = document.getElementById("settingToggleClassTree");
+    const settingAutoLevelUpEl = document.getElementById("settingAutoLevelUp");
     const settingCensoringEl = document.getElementById("settingCensoring");
     const settingsModalEl = document.getElementById("settingsModal");
     const settingsOverlay = document.getElementById("settingsOverlay");
@@ -119,6 +121,14 @@ window.setupInput = () => {
         settingToggleClassTreeEl.checked = Boolean(window.diepSettings.toggleClassTree);
         settingToggleClassTreeEl.onchange = () => {
             window.diepSettings.toggleClassTree = settingToggleClassTreeEl.checked;
+            saveSettings();
+        };
+    }
+
+    if (settingAutoLevelUpEl) {
+        settingAutoLevelUpEl.checked = window.diepSettings.autoLevelUp !== false;
+        settingAutoLevelUpEl.onchange = () => {
+            window.diepSettings.autoLevelUp = settingAutoLevelUpEl.checked;
             saveSettings();
         };
     }

@@ -337,7 +337,11 @@ export default class Client {
                 if (Entity.exists(camera.cameraData.values.player)) return;
 
                 const name = r.stringNT().slice(0, 16);
-                this.game.clientsAwaitingSpawn.set(this, name);
+                let autoLevelUp = true;
+                if (r.at < r.length) {
+                    autoLevelUp = r.u8() !== 0;
+                }
+                this.game.clientsAwaitingSpawn.set(this, { name, autoLevelUp });
 
                 return;
             }
@@ -547,7 +551,7 @@ export default class Client {
         }
     }
     
-    public createAndSpawnPlayer(name: string) {
+    public createAndSpawnPlayer(name: string, autoLevelUp: boolean = true) {
         const camera = this.camera;
         if (!Entity.exists(camera)) return;
 
@@ -562,7 +566,9 @@ export default class Client {
         tank.setTank(Tank.Basic);
         tank.nameData.values.name = name;
         this.game.arena.spawnPlayer(tank, this);
-        camera.setLevel(camera.cameraData.values.respawnLevel);
+        
+        const targetLevel = autoLevelUp ? 45 : 1;
+        camera.setLevel(targetLevel);
 
         if (this.hasCheated()) this.setHasCheated(true);
 

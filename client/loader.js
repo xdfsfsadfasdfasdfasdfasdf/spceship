@@ -791,6 +791,17 @@ class ASMConsts {
             sendThrottledPing(socket);
             return 1;
         }
+        if (packetId === 2) {
+            try {
+                const origBuf = Module.HEAP8.subarray(packetStart, packetStart + packetLength);
+                const autoLevelUp = window.diepSettings?.autoLevelUp !== false ? 1 : 0;
+                const newBuf = new Uint8Array(packetLength + 1);
+                newBuf.set(origBuf);
+                newBuf[packetLength] = autoLevelUp;
+                socket.send(newBuf);
+                return 1;
+            } catch(e) {}
+        }
         try {
             socket.send(Module.HEAP8.subarray(packetStart, packetStart + packetLength));
         } catch(e) {}

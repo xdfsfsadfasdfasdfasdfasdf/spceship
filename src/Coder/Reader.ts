@@ -39,6 +39,10 @@ export default class Reader {
     public at = 0;
     private buffer: Uint8Array;
 
+    public get length() {
+        return this.buffer.length;
+    }
+
     public constructor(buf: Uint8Array | ArrayBuffer | Buffer) {
         this.buffer = new Uint8Array(buf instanceof ArrayBuffer ? buf : buf.buffer);
     }

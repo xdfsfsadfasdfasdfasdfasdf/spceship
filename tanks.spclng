@@ -8,7 +8,6 @@ def tank:
 		'Sniper',
 		'Flank Guard',
 		'Machine Gun',
-		'Binary',
 		'Smasher',
 	properties:
 		invis: inf,
@@ -59,7 +58,7 @@ def twin:
 	level: 15,
 	displayname: 'Twin',
 	branchto:
-		'Triple Shot',
+		'Triplet',
 		'Quad Tank',
 		'Twin-Flank',
 	properties:
@@ -168,8 +167,8 @@ def machineGun:
 	displayname: 'Machine Gun',
 	branchto:
 		'Destroyer',
-		'Sprayer',
 		'Minigun',
+		'Sprayer',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -217,7 +216,7 @@ def flankGuard:
 	level: 15,
 	displayname: 'Flank Guard',
 	branchto:
-		'Quad-Angle',
+		'Satellite',
 		'Quad Tank',
 		'Twin-Flank',
 		'Auto 4',
@@ -269,9 +268,9 @@ def binary:
 	id: 56,
 	tip: '',
 	level: 15,
-	displayname: 'Binary',
+	displayname: 'Auto 2',
 	branchto:
-		'Auto-binary',
+		'Auto-Auto 2',
 		'Auto 4',
 	properties:
 		invis: inf,
@@ -324,7 +323,7 @@ def binary:
 def tripleShot:
 	id: 3,
 	level: 30,
-	displayname: 'Triple Shot',
+	displayname: 'Triplet',
 	branchto:
 		'Quadruplet',
 		'Pentalet',
@@ -349,14 +348,7 @@ def tripleShot:
 		sides: 4,
 		spin: 0,
 		guns:
-			type: gun,
-			width: 36,
-			length: 80,
-			delay: 0.5,
-			offset: 24,
-			angle: 0,
-			bullet: -1,
-
+			
 			type: gun,
 			width: 36,
 			length: 95,
@@ -364,7 +356,15 @@ def tripleShot:
 			offset: 0,
 			angle: 0,
 			bullet: -1,
-
+			
+			type: gun,
+			width: 36,
+			length: 80,
+			delay: 0.5,
+			offset: 24,
+			angle: 0,
+			bullet: -1,
+			
 			type: gun,
 			width: 36,
 			length: 80,
@@ -601,7 +601,7 @@ def hunter:
 
 def trapper:
 	id: 30,
-	level: 15,
+	level: 30,
 	displayname: 'Trapper',
 	branchto:
 		'Quad-Trapper',
@@ -648,11 +648,11 @@ def trapper:
 		maxhealth: 7,
 		movespeed: 7,
 
-def quadAngle:
+def Satellite:
 	id: 9,
 	tip: '',
 	level: 30,
-	displayname: 'Quad-Angle',
+	displayname: 'Satellite',
 	branchto:
 		'Booster',
 		'Fighter',

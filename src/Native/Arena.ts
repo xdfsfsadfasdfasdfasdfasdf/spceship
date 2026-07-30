@@ -243,7 +243,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
             this.onGameStarted();
         }
 
-        for (const [client, name] of this.game.clientsAwaitingSpawn) {
+        for (const [client, spawnInfo] of this.game.clientsAwaitingSpawn) {
             const camera = client.camera;
             if (!Entity.exists(camera)) continue;
 
@@ -254,7 +254,9 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
             }
 
             // Otherwise, proceed as usual
-            client.createAndSpawnPlayer(name);
+            const name = typeof spawnInfo === "string" ? spawnInfo : spawnInfo.name;
+            const autoLevelUp = typeof spawnInfo === "string" ? true : (spawnInfo.autoLevelUp ?? true);
+            client.createAndSpawnPlayer(name, autoLevelUp);
 
             if (camera.cameraData.values.flags & CameraFlags.gameWaitingStart) { // Hide countdown screen
                 camera.cameraData.values.flags &= ~CameraFlags.gameWaitingStart;
