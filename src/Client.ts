@@ -427,6 +427,24 @@ export default class Client {
                 }
                 executeCommand(this, cmd, args);
                 return;
+            case ServerBound.Chat: {
+                const message = r.stringNT();
+                if (!message || message.trim().length === 0) return;
+                const sanitizedMsg = message.trim().slice(0, 120);
+                const player = camera.cameraData?.values?.player;
+                const senderName = player?.nameData?.values?.name || "Player";
+                const senderId = player?.id || 0;
+
+                for (const client of this.game.clients) {
+                    client.write()
+                        .u8(ClientBound.Chat)
+                        .u32(senderId)
+                        .stringNT(senderName)
+                        .stringNT(sanitizedMsg)
+                        .send();
+                }
+                return;
+            }
             default:
                 util.log("Suspicious activies have been evaded")
                 return this.ban();

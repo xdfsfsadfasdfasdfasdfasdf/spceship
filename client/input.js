@@ -160,39 +160,53 @@ window.setupInput = () => {
         };
     }
 
-    // --- Chat System (Left Side) ---
+    // --- Chat System (Right Side & Networked) ---
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
     const chatFeed = document.getElementById("chatFeed");
+    const playerChatBubble = document.getElementById("playerChatBubble");
 
     let isChatOpen = false;
+    let bubbleTimer = null;
 
     window.chatSystem = {
-        addMessage: (sender, text) => {
-            if (!chatFeed || !text) return;
+        addMessage: (sender, text, senderId) => {
+            if (!text) return;
             const filteredText = window.censorText(text, window.diepSettings.censoring);
             
-            const msgEl = document.createElement("div");
-            msgEl.className = "chat-msg";
+            if (chatFeed) {
+                const msgEl = document.createElement("div");
+                msgEl.className = "chat-msg";
 
-            const senderEl = document.createElement("span");
-            senderEl.className = "chat-sender";
-            senderEl.textContent = sender + ":";
+                const senderEl = document.createElement("span");
+                senderEl.className = "chat-sender";
+                senderEl.textContent = sender + ":";
 
-            const textNode = document.createTextNode(" " + filteredText);
+                const textNode = document.createTextNode(" " + filteredText);
 
-            msgEl.appendChild(senderEl);
-            msgEl.appendChild(textNode);
+                msgEl.appendChild(senderEl);
+                msgEl.appendChild(textNode);
 
-            chatFeed.appendChild(msgEl);
-            chatFeed.scrollTop = chatFeed.scrollHeight;
+                chatFeed.appendChild(msgEl);
+                chatFeed.scrollTop = chatFeed.scrollHeight;
 
-            setTimeout(() => {
-                msgEl.classList.add("fade-out");
-            }, 7000);
-            setTimeout(() => {
-                if (msgEl.parentNode) msgEl.remove();
-            }, 12000);
+                setTimeout(() => {
+                    msgEl.classList.add("fade-out");
+                }, 7000);
+                setTimeout(() => {
+                    if (msgEl.parentNode) msgEl.remove();
+                }, 12000);
+            }
+
+            // In-Game Speech Bubble Below Player
+            if (playerChatBubble) {
+                playerChatBubble.innerHTML = `<span class="bubble-sender">${sender}:</span> ${filteredText}`;
+                playerChatBubble.classList.add("active");
+                if (bubbleTimer) clearTimeout(bubbleTimer);
+                bubbleTimer = setTimeout(() => {
+                    playerChatBubble.classList.remove("active");
+                }, 4500);
+            }
         },
         openChat: () => {
             isChatOpen = true;
@@ -213,8 +227,23 @@ window.setupInput = () => {
             if (!chatInput) return;
             const val = chatInput.value.trim();
             if (val) {
-                const playerName = (Module.textInput && Module.textInput.value) || "Player";
-                window.chatSystem.addMessage(playerName, val);
+                // Encode ServerBound.Chat packet (opcode 0x0C)
+                const encoder = new TextEncoder();
+                const strBuf = encoder.encode(val);
+                const packet = new Uint8Array(1 + strBuf.length + 1);
+                packet[0] = 0x0C; // ServerBound.Chat
+                packet.set(strBuf, 1);
+                packet[1 + strBuf.length] = 0; // null-terminated
+
+                // Find active WebSocket connection
+                const socket = Module?.cp5?.sockets?.[0] || window.Game?.socket;
+                if (socket && socket.readyState === 1) {
+                    socket.send(packet);
+                } else {
+                    // Fallback to local display if socket not connected
+                    const playerName = (Module.textInput && Module.textInput.value) || "Player";
+                    window.chatSystem.addMessage(playerName, val);
+                }
             }
             window.chatSystem.closeChat();
         }

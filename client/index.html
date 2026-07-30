@@ -217,12 +217,12 @@
             padding: 6px;
           }
 
-          /* Chat Container (Left side) */
+          /* Chat Container (Right side) */
           #chatContainer {
             position: fixed;
-            bottom: 25px;
-            left: 20px;
-            width: 360px;
+            bottom: 185px;
+            right: 20px;
+            width: 320px;
             z-index: 999;
             pointer-events: none;
             display: flex;
@@ -277,6 +277,37 @@
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
             box-sizing: border-box;
           }
+
+          /* Below-Player In-Game Speech Bubble */
+          #playerChatBubble {
+            position: fixed;
+            top: calc(50% + 55px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 10, 28, 0.88);
+            border: 2px solid #a855f7;
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            line-height: 1.4;
+            text-align: center;
+            pointer-events: none;
+            z-index: 998;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 280px;
+            word-wrap: break-word;
+          }
+          #playerChatBubble.active {
+            opacity: 1;
+          }
+          #playerChatBubble .bubble-sender {
+            color: #38bdf8;
+            margin-right: 4px;
+          }
         </style>
 
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
@@ -321,7 +352,10 @@
           </div>
         </div>
 
-        <!-- Chat Container (Left side) -->
+        <!-- Below-Player Speech Bubble -->
+        <div id="playerChatBubble"></div>
+
+        <!-- Chat Container (Right side) -->
         <div id="chatContainer">
           <div id="chatFeed"></div>
           <form id="chatForm" onsubmit="return false;">

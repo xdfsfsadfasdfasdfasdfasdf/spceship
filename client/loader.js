@@ -1343,6 +1343,21 @@ class ASMConsts {
         };
         ws.onmessage = function(e) {
             const view = new Uint8Array(e.data);
+            if(view[0] === 0x0C) { // ClientBound.Chat
+                let at = 1;
+                const senderId = (view[at] & 0xff) | ((view[at+1] & 0xff) << 8) | ((view[at+2] & 0xff) << 16) | ((view[at+3] & 0xff) << 24);
+                at += 4;
+                const nameEnd = view.indexOf(0, at);
+                const decoder = new TextDecoder();
+                const senderName = nameEnd !== -1 ? decoder.decode(view.subarray(at, nameEnd)) : "Player";
+                at = nameEnd !== -1 ? nameEnd + 1 : at;
+                const textEnd = view.indexOf(0, at);
+                const text = textEnd !== -1 ? decoder.decode(view.subarray(at, textEnd)) : "";
+                if (window.chatSystem && window.chatSystem.addMessage) {
+                    window.chatSystem.addMessage(senderName, text, senderId);
+                }
+                return;
+            }
             if(view[0] === 7) {
                 let out = 0, i = 0, at = 1;
                 while(view[at] & 0x80) {

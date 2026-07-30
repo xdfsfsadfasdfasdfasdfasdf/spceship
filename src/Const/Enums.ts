@@ -164,7 +164,8 @@ export const enum ServerBound {
     TCPInit         = 0x6,
     ExtensionFound  = 0x7,
     ToRespawn       = 0x8,
-    TakeTank        = 0x9
+    TakeTank        = 0x9,
+    Chat            = 0x0C
 }
 /**
  * Packet headers for the [clientbound packets](https://github.com/ABCxFF/diepindepth/blob/main/protocol/clientbound.md).
@@ -181,7 +182,8 @@ export const enum ClientBound {
     Achievement     = 0x8,
     InvalidParty    = 0x9,
     PlayerCount     = 0xA,
-    ProofOfWork     = 0xB
+    ProofOfWork     = 0xB,
+    Chat            = 0x0C
 }
 
 /**
