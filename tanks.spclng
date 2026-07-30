@@ -1813,11 +1813,7 @@ def megaTrapper:
 		maxhealth: 7,
 		movespeed: 7,
 
-def autoTrapper:
-	id: 44,
-	level: 45,
-	displayname: 'Auto Trapper',
-	makeAuto: 'Trapper',
+def autoTrapper: id 44, level 45, displayname 'Auto Trapper', makeAuto 'Trapper'
 
 def booster:
 	id: 23,
@@ -2309,22 +2305,7 @@ def landmine:
 		maxhealth: 10,
 		movespeed: 10,
 
-def autoSmasher:
-	id: 50,
-	level: 45,
-	displayname: 'Auto Smasher',
-	makeAuto: 'Smasher',
-	stats:
-		correction: 10,
-		reload: 10,
-		damage: 10,
-		speed: 10,
-		life: 10,
-		fov: 10,
-		bodydmg: 10,
-		healthregen: 10,
-		maxhealth: 10,
-		movespeed: 10,
+def autoSmasher: id 50, level 45, displayname 'Auto Smasher', makeAuto 'Smasher'
 
 def spike:
 	id: 51,

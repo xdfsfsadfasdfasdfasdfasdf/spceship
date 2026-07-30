@@ -4897,19 +4897,19 @@
             },
             {
                 "name": "Reload",
-                "max": 10
+                "max": 7
             },
             {
                 "name": "Bullet Damage",
-                "max": 10
+                "max": 7
             },
             {
                 "name": "Bullet Penetration",
-                "max": 10
+                "max": 7
             },
             {
                 "name": "Bullet Speed",
-                "max": 10
+                "max": 7
             },
             {
                 "name": "Body Damage",
