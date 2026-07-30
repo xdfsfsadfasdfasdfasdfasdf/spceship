@@ -217,96 +217,107 @@
             padding: 6px;
           }
 
-          /* Chat Container (Right side) */
+          /* Chat Widget (Above Minimap - Right side) */
           #chatContainer {
             position: fixed;
             bottom: 185px;
-            right: 20px;
-            width: 320px;
+            right: 15px;
+            width: 310px;
+            background: rgba(15, 10, 22, 0.75);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             z-index: 999;
-            pointer-events: none;
+            pointer-events: auto;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
+          }
+          #chatWarning {
+            color: #f472b6;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            line-height: 1.35;
+            margin-bottom: 8px;
+            padding-bottom: 2px;
+            user-select: none;
           }
           #chatFeed {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-height: 220px;
+            gap: 4px;
+            max-height: 160px;
             overflow-y: auto;
-            pointer-events: auto;
             scrollbar-width: thin;
             scrollbar-color: #a855f7 transparent;
           }
           .chat-msg {
-            background: rgba(15, 10, 28, 0.85);
-            border-left: 3px solid #a855f7;
-            backdrop-filter: blur(4px);
-            padding: 8px 10px;
-            border-radius: 0 6px 6px 0;
-            color: #fff;
-            font-size: 9px;
-            line-height: 1.4;
+            color: #ffffff;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1.3;
             word-wrap: break-word;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-            transition: opacity 0.5s ease;
-          }
-          .chat-msg.fade-out {
-            opacity: 0.3;
           }
           .chat-sender {
-            color: #38bdf8;
-            font-weight: bold;
-            margin-right: 6px;
+            color: #c084fc;
+            font-weight: 700;
+            margin-right: 4px;
           }
           #chatForm {
             margin-top: 8px;
-            pointer-events: auto;
-            display: none;
+            width: 100%;
           }
           #chatInput {
             width: 100%;
-            background: rgba(20, 12, 36, 0.95);
-            border: 2px solid #a855f7;
-            color: #fff;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            outline: none;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
             box-sizing: border-box;
+            background: rgba(10, 6, 18, 0.85);
+            border: 2px solid #ffffff;
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 6px 10px;
+            outline: none;
+          }
+          #chatInput::placeholder {
+            color: #94a3b8;
+            font-weight: normal;
           }
 
-          /* Below-Player In-Game Speech Bubble */
-          #playerChatBubble {
+          /* Below-Player In-Game Speech Bubbles */
+          #playerChatContainer {
             position: fixed;
-            top: calc(50% + 55px);
+            top: calc(50% + 45px);
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(15, 10, 28, 0.88);
-            border: 2px solid #a855f7;
-            border-radius: 8px;
-            padding: 6px 12px;
-            color: #fff;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 9px;
-            line-height: 1.4;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
             pointer-events: none;
             z-index: 998;
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            width: max-content;
             max-width: 280px;
-            word-wrap: break-word;
           }
-          #playerChatBubble.active {
-            opacity: 1;
+          .player-bubble {
+            background: rgba(18, 12, 26, 0.88);
+            color: #ffffff;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            text-align: center;
+            word-break: break-word;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            animation: popIn 0.15s ease-out;
           }
-          #playerChatBubble .bubble-sender {
-            color: #38bdf8;
-            margin-right: 4px;
+          @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
           }
         </style>
 
@@ -352,14 +363,17 @@
           </div>
         </div>
 
-        <!-- Below-Player Speech Bubble -->
-        <div id="playerChatBubble"></div>
+        <!-- Below-Player Speech Bubbles (Max 3, 5s timeout) -->
+        <div id="playerChatContainer"></div>
 
-        <!-- Chat Container (Right side) -->
+        <!-- Chat Widget (Above Minimap) -->
         <div id="chatContainer">
+          <div id="chatWarning">
+            Warning: game chat is moderated. Anything that would break the rules on discord will get you chat-banned.
+          </div>
           <div id="chatFeed"></div>
           <form id="chatForm" onsubmit="return false;">
-            <input type="text" id="chatInput" placeholder="Press Enter to chat..." maxlength="120" autocomplete="off" />
+            <input type="text" id="chatInput" placeholder="Press T to chat..." maxlength="100" autocomplete="off" />
           </form>
         </div>
 

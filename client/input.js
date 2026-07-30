@@ -160,20 +160,50 @@ window.setupInput = () => {
         };
     }
 
-    // --- Chat System (Right Side & Networked) ---
+    // --- Chat System (Widget Above Minimap & Below-Player Speech Bubbles) ---
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
     const chatFeed = document.getElementById("chatFeed");
-    const playerChatBubble = document.getElementById("playerChatBubble");
+    const playerChatContainer = document.getElementById("playerChatContainer");
 
-    let isChatOpen = false;
-    let bubbleTimer = null;
+    let playerMessages = []; // Stack of active speech bubbles below tank (max 3, 5s timeout)
+
+    const renderPlayerBubbles = () => {
+        if (!playerChatContainer) return;
+        playerChatContainer.innerHTML = "";
+        playerMessages.forEach(msg => {
+            const bubble = document.createElement("div");
+            bubble.className = "player-bubble";
+            bubble.textContent = msg.text;
+            playerChatContainer.appendChild(bubble);
+        });
+    };
+
+    const addPlayerBubble = (text) => {
+        if (!playerChatContainer) return;
+        if (playerMessages.length >= 3) {
+            const oldest = playerMessages.shift();
+            if (oldest && oldest.timer) clearTimeout(oldest.timer);
+        }
+        const msgObj = { text: text, timer: null };
+        msgObj.timer = setTimeout(() => {
+            const idx = playerMessages.indexOf(msgObj);
+            if (idx !== -1) {
+                playerMessages.splice(idx, 1);
+                renderPlayerBubbles();
+            }
+        }, 5000); // Messages get removed after 5 seconds
+
+        playerMessages.push(msgObj);
+        renderPlayerBubbles();
+    };
 
     window.chatSystem = {
         addMessage: (sender, text, senderId) => {
             if (!text) return;
             const filteredText = window.censorText(text, window.diepSettings.censoring);
             
+            // 1. Add to Above-Minimap Chat Widget Feed
             if (chatFeed) {
                 const msgEl = document.createElement("div");
                 msgEl.className = "chat-msg";
@@ -189,43 +219,27 @@ window.setupInput = () => {
 
                 chatFeed.appendChild(msgEl);
                 chatFeed.scrollTop = chatFeed.scrollHeight;
-
-                setTimeout(() => {
-                    msgEl.classList.add("fade-out");
-                }, 7000);
-                setTimeout(() => {
-                    if (msgEl.parentNode) msgEl.remove();
-                }, 12000);
             }
 
-            // In-Game Speech Bubble Below Player
-            if (playerChatBubble) {
-                playerChatBubble.innerHTML = `<span class="bubble-sender">${sender}:</span> ${filteredText}`;
-                playerChatBubble.classList.add("active");
-                if (bubbleTimer) clearTimeout(bubbleTimer);
-                bubbleTimer = setTimeout(() => {
-                    playerChatBubble.classList.remove("active");
-                }, 4500);
-            }
+            // 2. Add to Below-Tank Speech Bubbles (Max 3, 5 seconds timeout)
+            addPlayerBubble(filteredText);
         },
         openChat: () => {
-            isChatOpen = true;
             window.setTyping(true);
-            if (chatForm) chatForm.style.display = "block";
-            if (chatInput) chatInput.focus();
+            if (chatInput) {
+                chatInput.focus();
+                chatInput.select();
+            }
         },
         closeChat: () => {
-            isChatOpen = false;
             if (chatInput) chatInput.value = "";
-            if (chatForm) chatForm.style.display = "none";
             window.setTyping(false);
-            if (Module.textInput) Module.textInput.blur();
             if (document.activeElement && document.activeElement !== canvas) document.activeElement.blur();
             canvas.focus();
         },
         sendChat: () => {
             if (!chatInput) return;
-            const val = chatInput.value.trim();
+            const val = chatInput.value.trim().slice(0, 100); // Max 100 chars
             if (val) {
                 // Encode ServerBound.Chat packet (opcode 0x0C)
                 const encoder = new TextEncoder();
@@ -252,13 +266,19 @@ window.setupInput = () => {
     if (chatInput) {
         chatInput.onkeydown = e => {
             e.stopPropagation();
-            if (e.keyCode === 13) { // Enter key
+            if (e.keyCode === 13) { // Enter key sends message
                 e.preventDefault();
                 window.chatSystem.sendChat();
-            } else if (e.keyCode === 27) { // Escape key
+            } else if (e.keyCode === 27) { // Escape key cancels chat
                 e.preventDefault();
                 window.chatSystem.closeChat();
             }
+        };
+        chatInput.onfocus = () => {
+            window.setTyping(true);
+        };
+        chatInput.onblur = () => {
+            window.setTyping(false);
         };
     }
 
@@ -267,8 +287,8 @@ window.setupInput = () => {
     window.onkeydown = e => {
         if (e.repeat) return;
 
-        // Enter key opens chat when not typing
-        if (e.keyCode === 13 && !isTyping && !isChatOpen) {
+        // Press 'T' or Enter to open chat when not typing
+        if ((e.keyCode === 84 || e.keyCode === 13) && !isTyping) {
             e.preventDefault();
             window.chatSystem.openChat();
             return;

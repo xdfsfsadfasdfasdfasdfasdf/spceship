@@ -430,7 +430,7 @@ export default class Client {
             case ServerBound.Chat: {
                 const message = r.stringNT();
                 if (!message || message.trim().length === 0) return;
-                const sanitizedMsg = message.trim().slice(0, 120);
+                const sanitizedMsg = message.trim().slice(0, 100);
                 const player = camera.cameraData?.values?.player;
                 const senderName = player?.nameData?.values?.name || "Player";
                 const senderId = player?.id || 0;
