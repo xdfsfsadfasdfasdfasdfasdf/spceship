@@ -249,8 +249,8 @@ window.setupInput = () => {
                 packet.set(strBuf, 1);
                 packet[1 + strBuf.length] = 0; // null-terminated
 
-                // Find active WebSocket connection
-                const socket = Module?.cp5?.sockets?.[0] || window.Game?.socket;
+                // Find active open WebSocket connection
+                const socket = Module?.cp5?.sockets?.find(s => s && s.readyState === 1) || window.Game?.socket;
                 if (socket && socket.readyState === 1) {
                     socket.send(packet);
                 } else {
@@ -287,8 +287,8 @@ window.setupInput = () => {
     window.onkeydown = e => {
         if (e.repeat) return;
 
-        // Press 'T' or Enter to open chat when not typing
-        if ((e.keyCode === 84 || e.keyCode === 13) && !isTyping) {
+        // Press 'T' key to open chat when not typing
+        if ((e.keyCode === 84 || e.code === "KeyT" || e.key === "t" || e.key === "T") && !isTyping) {
             e.preventDefault();
             window.chatSystem.openChat();
             return;
