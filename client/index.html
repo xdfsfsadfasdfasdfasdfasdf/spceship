@@ -1,0 +1,345 @@
+<!--
+    DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
+    Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>
+-->
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="icon" href="https://raw.githubusercontent.com/ABCxFF/diepcustom/main/icon.png"/>
+        <title>diep.io custom-server</title>
+        
+        <style>
+          body {
+            background-color: #0d0714;
+            font-family: 'Press Start 2P', cursive, monospace;
+          }
+
+          #canvas {
+            border: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0d0714;
+          }
+    
+          #loading {
+            color: #B026FF;
+            text-shadow: 0 0 15px #B026FF, 0 0 30px #00F0FF;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24pt;
+            font-family: 'Press Start 2P', cursive, monospace;
+            font-weight: bold;
+            cursor: default;
+            letter-spacing: 2px;
+          }
+    
+          #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            cursor: default;
+          }
+    
+          #textInputContainer {
+            display: none;
+            position: absolute;
+          }
+    
+          #textInput {
+            background-color: transparent;
+            font-family: 'Press Start 2P', cursive, monospace;
+            color: #111827;
+            padding: 0;
+            border: 0;
+            outline: none;
+          }
+
+          /* Settings Button */
+          #settingsBtn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: rgba(20, 10, 35, 0.85);
+            border: 2px solid #a855f7;
+            color: #e9d5ff;
+            font-size: 16px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.2s ease;
+          }
+          #settingsBtn:hover {
+            background: #a855f7;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.8);
+            transform: scale(1.1);
+          }
+
+          /* Settings Overlay & Modal */
+          #settingsOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 5, 20, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+          }
+          #settingsModal {
+            background: #140b24;
+            border: 2px solid #a855f7;
+            border-radius: 14px;
+            padding: 24px;
+            width: 440px;
+            max-width: 90vw;
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.5);
+            font-family: 'Press Start 2P', monospace;
+            color: #fff;
+          }
+          .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #c084fc;
+            border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+          }
+          #closeSettingsBtn {
+            background: transparent;
+            border: none;
+            color: #f43f5e;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', monospace;
+          }
+          #closeSettingsBtn:hover {
+            color: #ff4d4d;
+            transform: scale(1.2);
+          }
+          .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-width: 280px;
+          }
+          .setting-title {
+            font-size: 11px;
+            color: #e9d5ff;
+          }
+          .setting-desc {
+            font-size: 8px;
+            color: #94a3b8;
+            line-height: 1.4;
+          }
+          .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+          }
+          .switch input { opacity: 0; width: 0; height: 0; }
+          .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #334155;
+            transition: .3s;
+            border-radius: 24px;
+            border: 1px solid #64748b;
+          }
+          .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px; width: 16px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+          }
+          input:checked + .slider { background-color: #a855f7; border-color: #c084fc; }
+          input:checked + .slider:before { transform: translateX(20px); }
+
+          .custom-select {
+            background: #1e1135;
+            border: 1px solid #a855f7;
+            color: #38bdf8;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+          .custom-select option {
+            background: #140b24;
+            color: #38bdf8;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            padding: 6px;
+          }
+
+          /* Chat Container (Left side) */
+          #chatContainer {
+            position: fixed;
+            bottom: 25px;
+            left: 20px;
+            width: 360px;
+            z-index: 999;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+          }
+          #chatFeed {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            pointer-events: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #a855f7 transparent;
+          }
+          .chat-msg {
+            background: rgba(15, 10, 28, 0.85);
+            border-left: 3px solid #a855f7;
+            backdrop-filter: blur(4px);
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
+            color: #fff;
+            font-size: 9px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            transition: opacity 0.5s ease;
+          }
+          .chat-msg.fade-out {
+            opacity: 0.3;
+          }
+          .chat-sender {
+            color: #38bdf8;
+            font-weight: bold;
+            margin-right: 6px;
+          }
+          #chatForm {
+            margin-top: 8px;
+            pointer-events: auto;
+            display: none;
+          }
+          #chatInput {
+            width: 100%;
+            background: rgba(20, 12, 36, 0.95);
+            border: 2px solid #a855f7;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            box-sizing: border-box;
+          }
+        </style>
+
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <!-- Settings Button -->
+        <button id="settingsBtn" title="Settings">⚙</button>
+
+        <!-- Settings Modal -->
+        <div id="settingsOverlay">
+          <div id="settingsModal">
+            <div class="settings-header">
+              <span>⚙ SETTINGS</span>
+              <button id="closeSettingsBtn">✖</button>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-title">Toggle class tree</span>
+                <span class="setting-desc">Press Y to toggle upgrade tree preview</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="settingToggleClassTree">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-title">Censoring</span>
+                <span class="setting-desc">Profanity filter for chat messages</span>
+              </div>
+              <select id="settingCensoring" class="custom-select">
+                <option value="No censoring">No censoring</option>
+                <option value="****">****</option>
+                <option value="####">####</option>
+                <option value="(censored)">(censored)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Container (Left side) -->
+        <div id="chatContainer">
+          <div id="chatFeed"></div>
+          <form id="chatForm" onsubmit="return false;">
+            <input type="text" id="chatInput" placeholder="Press Enter to chat..." maxlength="120" autocomplete="off" />
+          </form>
+        </div>
+
+        <span id="loading">Loading...</span>
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <div style="font-family:'Press Start 2P'">&nbsp;</div>
+        <div id="textInputContainer"><input id="textInput"></div>
+        
+        <!-- Third party library for dynmically modifying wasm files on the fly-->
+        <script src ="https://cdn.jsdelivr.net/gh/Qwokka/wail.min.js@5e32d36bd7a5e0830d1ff4b64d3587aea13f77da/wail.min.js" crossorigin="anonymous"></script>
+
+        <script src="./config.js"></script>
+        <script src="./input.js"></script>
+        <script src="./dma.js"></script>
+        <script src="./loader.js"></script>
+    </body>
+</html>

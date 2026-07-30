@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: spceship
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        sync: false
+      - key: NODE_ENV
+        value: production
