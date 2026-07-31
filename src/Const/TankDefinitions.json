@@ -3977,194 +3977,13 @@
     },
     null,
     null,
-    {
-        "id": 40,
-        "name": "Auto 5",
-        "upgradeMessage": "",
-        "levelRequirement": 45,
-        "upgrades": [],
-        "flags": {
-            "invisibility": false,
-            "zoomAbility": false,
-            "canClaimSquares": false,
-            "devOnly": false
-        },
-        "visibilityRateShooting": 0.23,
-        "visibilityRateMoving": 0.08,
-        "invisibilityRate": 0.03,
-        "fieldFactor": 1,
-        "absorbtionFactor": 1,
-        "speed": 1,
-        "maxHealth": 50,
-        "preAddon": null,
-        "postAddon": null,
-        "sides": 4,
-        "borderWidth": 15,
-        "barrels": [
-            {
-                "angle": 0,
-                "offset": 0,
-                "size": 90,
-                "width": 38,
-                "delay": 0,
-                "reload": 1,
-                "recoil": 1,
-                "isTrapezoid": false,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "canControlDrones": false,
-                "forceFire": true,
-                "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 1,
-                    "speed": 1,
-                    "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
-                }
-            },
-            {
-                "angle": 1.2566370614359172,
-                "offset": 0,
-                "size": 90,
-                "width": 38,
-                "delay": 0,
-                "reload": 1,
-                "recoil": 1,
-                "isTrapezoid": false,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "canControlDrones": false,
-                "forceFire": true,
-                "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 1,
-                    "speed": 1,
-                    "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
-                }
-            },
-            {
-                "angle": 2.5132741228718345,
-                "offset": 0,
-                "size": 90,
-                "width": 38,
-                "delay": 0,
-                "reload": 1,
-                "recoil": 1,
-                "isTrapezoid": false,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "canControlDrones": false,
-                "forceFire": true,
-                "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 1,
-                    "speed": 1,
-                    "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
-                }
-            },
-            {
-                "angle": 3.7699111843077517,
-                "offset": 0,
-                "size": 90,
-                "width": 38,
-                "delay": 0,
-                "reload": 1,
-                "recoil": 1,
-                "isTrapezoid": false,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "canControlDrones": false,
-                "forceFire": true,
-                "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 1,
-                    "speed": 1,
-                    "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
-                }
-            },
-            {
-                "angle": 5.026548245743669,
-                "offset": 0,
-                "size": 90,
-                "width": 38,
-                "delay": 0,
-                "reload": 1,
-                "recoil": 1,
-                "isTrapezoid": false,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "canControlDrones": false,
-                "forceFire": true,
-                "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 1,
-                    "speed": 1,
-                    "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
-                }
-            }
-        ],
-        "stats": [
-            {
-                "name": "Movement Speed",
-                "max": 7
-            },
-            {
-                "name": "Reload",
-                "max": 7
-            },
-            {
-                "name": "Bullet Damage",
-                "max": 7
-            },
-            {
-                "name": "Bullet Penetration",
-                "max": 7
-            },
-            {
-                "name": "Bullet Speed",
-                "max": 7
-            },
-            {
-                "name": "Body Damage",
-                "max": 7
-            },
-            {
-                "name": "Max Health",
-                "max": 7
-            },
-            {
-                "name": "Health Regen",
-                "max": 7
-            }
-        ]
-    },
+    null,
     {
         "id": 41,
         "name": "Auto 4",
         "upgradeMessage": "",
-        "levelRequirement": 30,
-        "upgrades": [
-            40
-        ],
+        "levelRequirement": 45,
+        "upgrades": [],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -5897,7 +5716,7 @@
     },
     {
         "id": 105,
-        "name": "Auto-binary",
+        "name": "Auto-auto2",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],

@@ -338,7 +338,6 @@ export class SpclngParser {
             "Smasher": 36,
             "Landmine": 37,
             "Auto Gunner": 39, "AutoGunner": 39,
-            "Auto 5": 40, "Auto5": 40,
             "Auto 3": 41, "Auto3": 41, "Auto 4": 41, "Auto4": 41,
             "Streamliner": 43,
             "Auto Trapper": 44, "AutoTrapper": 44,
@@ -411,7 +410,6 @@ export class SpclngParser {
                 if (h === "auto" || h === "autoturret") postAddon = "autoturret";
                 else if (h === "auto2" || h === "binary") postAddon = "auto2";
                 else if (h === "auto3" || h === "auto4") postAddon = "auto4";
-                else if (h === "auto5") postAddon = "auto5";
                 else if (h === "auto7") postAddon = "auto7";
                 else if (h === "autosmasher") postAddon = "autosmasher";
                 else if (h === "smasher") postAddon = "smasher";

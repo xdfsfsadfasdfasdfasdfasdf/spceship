@@ -264,7 +264,7 @@ def flankGuard:
 		maxhealth: 7,
 		movespeed: 7,
 
-def binary:
+def auto2:
 	id: 56,
 	tip: '',
 	level: 15,
@@ -290,7 +290,7 @@ def binary:
 
 	layer 1:
 		sides: 4,
-		spin: 0,
+		spin: 0.5,
 		guns:
 			type: gun,
 			width: 42,
@@ -839,10 +839,8 @@ def overseer:
 
 def auto4:
 	id: 41,
-	level: 30,
+	level: 45,
 	displayname: 'Auto 4',
-	branchto:
-		'Auto 5',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -1072,54 +1070,6 @@ def pentalet:
 		maxhealth: 7,
 		movespeed: 7,
 
-def auto5:
-	id: 40,
-	level: 45,
-	displayname: 'Auto 5',
-	properties:
-		invis: inf,
-		zoom: false,
-		infects: false,
-		devonly: false,
-		maxhealth: 1,
-		healthregen: 1,
-		fov: 1,
-		movespeed: 1,
-		bodydmg: 1,
-		correction: 1,
-		reload: 1,
-		damage: 1,
-		speed: 1,
-		life: 1,
-
-	layer 1:
-		sides: 4,
-		spin: 0,
-		guns:
-			flank:
-				repeat: 5,
-				startangle: 0,
-				guns:
-					type: auto,
-					width: 38,
-					length: 90,
-					delay: 0,
-					offset: 0,
-					angle: 0,
-					bullet: -1,
-					range: 3,
-
-	stats:
-		correction: 7,
-		reload: 7,
-		damage: 7,
-		speed: 7,
-		life: 7,
-		fov: 7,
-		bodydmg: 7,
-		healthregen: 7,
-		maxhealth: 7,
-		movespeed: 7,
 
 def quadTwin:
 	id: 18,
@@ -2344,11 +2294,11 @@ def spike:
 		maxhealth: 10,
 		movespeed: 10,
 
-def autoBinary:
+def autoauto2:
 	id: temp,
 	tip: '', 
 	level: 45,
-	displayname: 'Auto-binary',
+	displayname: 'Auto-auto2',
 	hat: auto2,
 	properties:
 		invis: inf,

@@ -135,8 +135,6 @@ window.setupInput = () => {
 
     if (settingCensoringEl) {
         settingCensoringEl.value = window.diepSettings.censoring || "No censoring";
-        settingCensoringEl.onmousedown = e => e.stopPropagation();
-        settingCensoringEl.onclick = e => e.stopPropagation();
         settingCensoringEl.onchange = () => {
             window.diepSettings.censoring = settingCensoringEl.value;
             saveSettings();
@@ -208,6 +206,8 @@ window.setupInput = () => {
         renderPlayerBubbles();
     };
 
+    let lastChatActionTime = 0;
+
     window.chatSystem = {
         addMessage: (sender, text, senderId) => {
             if (!text) return;
@@ -235,6 +235,8 @@ window.setupInput = () => {
             addPlayerBubble(filteredText);
         },
         openChat: () => {
+            if (Date.now() - lastChatActionTime < 250) return;
+            lastChatActionTime = Date.now();
             window.setTyping(true);
             if (chatInput) {
                 chatInput.focus();
@@ -242,6 +244,7 @@ window.setupInput = () => {
             }
         },
         closeChat: () => {
+            lastChatActionTime = Date.now();
             if (chatInput) chatInput.value = "";
             window.setTyping(false);
             if (document.activeElement && document.activeElement !== canvas) {
@@ -250,6 +253,7 @@ window.setupInput = () => {
             if (canvas) canvas.focus();
         },
         sendChat: () => {
+            lastChatActionTime = Date.now();
             if (!chatInput) return;
             const val = chatInput.value.trim().slice(0, 100); // Max 100 chars
             if (val) {
@@ -274,6 +278,14 @@ window.setupInput = () => {
             window.chatSystem.closeChat();
         }
     };
+
+    if (chatForm) {
+        chatForm.onsubmit = e => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.chatSystem.sendChat();
+        };
+    }
 
     if (chatInput) {
         chatInput.onkeydown = e => {
@@ -301,17 +313,44 @@ window.setupInput = () => {
         return isTyping || (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA"));
     };
 
+    const isTextInputActive = () => {
+        return Boolean(
+            Module?.textInput && (
+                document.activeElement === Module.textInput ||
+                (Module.textInputContainer && Module.textInputContainer.style.display !== "none")
+            )
+        );
+    };
+
     const handleKeyDown = e => {
         if (e.repeat) return;
 
-        // Press 'T' key to open chat when not typing
-        if ((e.keyCode === 84 || e.code === "KeyT" || e.key === "t" || e.key === "T") && !checkIsTyping()) {
+        const isEnterKey = e.keyCode === 13 || e.key === "Enter";
+
+        // Main Menu: Submit nickname and spawn tank when pressing Enter
+        if (isTextInputActive()) {
+            if (isEnterKey) {
+                e.preventDefault();
+                const name = Module.textInput ? Module.textInput.value : "";
+                if (window.input && window.input.execute) {
+                    window.input.execute(`game_spawn ${name}`);
+                }
+            }
+            return;
+        }
+
+        // In-Game: Press 'Enter' key to open chat when not typing
+        if (isEnterKey && !checkIsTyping()) {
+            if (Date.now() - lastChatActionTime < 250) {
+                e.preventDefault();
+                return;
+            }
             e.preventDefault();
             window.chatSystem.openChat();
             return;
         }
 
-        // Ignore game keybinds if currently typing in an input field
+        // Ignore game keybinds if currently typing in an input field (e.g. chat input)
         if (checkIsTyping()) return;
 
         // Y key: Toggle class tree mode vs hold mode
@@ -330,13 +369,12 @@ window.setupInput = () => {
 
         window.input.flushInputHooks();
         if(e.keyCode >= 112 && e.keyCode <= 130 && e.keyCode !== 113) return;
-        window.input.keyDown(e.keyCode);
+        window.input.keyDown(e.keyCode || 13);
         if(e.keyCode === 9 || (!isTyping && e.ctrlKey && e.metaKey)) e.preventDefault();
     };
 
     const handleKeyUp = e => {
-        // Ignore game keybinds if currently typing in an input field
-        if (checkIsTyping()) return;
+        if (isTextInputActive() || checkIsTyping()) return;
 
         // Y key: Ignore keyup in toggle mode
         if (e.keyCode === 89 && window.diepSettings.toggleClassTree) {
@@ -345,14 +383,12 @@ window.setupInput = () => {
 
         window.input.flushInputHooks();
         if(e.keyCode >= 112 && e.keyCode <= 130 && e.keyCode !== 113) return;
-        window.input.keyUp(e.keyCode);
+        window.input.keyUp(e.keyCode || 13);
         if(e.keyCode === 9 || (!isTyping && e.ctrlKey && e.metaKey)) e.preventDefault();
     };
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
 
     canvas.onclick = window.onclick = () => window.input.flushInputHooks();
 

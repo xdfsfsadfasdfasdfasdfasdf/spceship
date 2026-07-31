@@ -507,6 +507,7 @@ Module.todo.push([(dependency, servers, tanks) => {
             }
         }
         
+
         switch(index) {
             // modify load changelog function
             case originalLoadChangelog.i32(): // we only need the part where it checks if the changelog is already loaded to avoid too many import calls
@@ -555,19 +556,7 @@ Module.todo.push([(dependency, servers, tanks) => {
                 }
                 return new Uint8Array(arr);
             }
-            case 955: {
-                const arr = Array.from(bytes);
-                for(let i = 0; i < arr.length - 42; i++) {
-                    if(arr[i+18] === 0x38 && arr[i+19] === 0x02 && arr[i+20] === 0xa0 && arr[i+21] === 0x13 &&
-                       arr[i+37] === 0x38 && arr[i+38] === 0x02 && arr[i+39] === 0xe8 && arr[i+40] === 0x13) {
-                        // Gamemode selector X position: 85.0 -> 880.0 (centered)
-                        arr[i+9] = 0x43; arr[i+10] = 0x00; arr[i+11] = 0x00; arr[i+12] = 0x5c; arr[i+13] = 0x44;
-                        // Gamemode selector Y position: 24.0 -> 580.0 (directly below name-bar)
-                        arr[i+28] = 0x43; arr[i+29] = 0x00; arr[i+30] = 0x00; arr[i+31] = 0x11; arr[i+32] = 0x44;
-                    }
-                }
-                return new Uint8Array(arr);
-            }
+
             case 203: {
                 const arr = Array.from(bytes);
                 // 1. Convert 2-wide grid (41 02 74) to 5-wide grid (41 05 6e)
@@ -942,7 +931,21 @@ class ASMConsts {
         Module.textInput.style.paddingLeft = "5px";
         Module.textInput.style.paddingRight = "5px";
         Module.textInput.disabled = !enabled;
+        Module.textInput.onkeydown = e => {
+            if (e.keyCode === 13 || e.key === "Enter") {
+                e.preventDefault();
+                e.stopPropagation();
+                const name = Module.textInput ? Module.textInput.value : "";
+                if (window.input && window.input.execute) {
+                    window.input.execute(`game_spawn ${name}`);
+                }
+            }
+        };
         Module.textInput.focus();
+
+        const chatContainer = document.getElementById("chatContainer");
+        if (chatContainer) chatContainer.style.display = "none";
+        if (window.chatSystem) window.chatSystem.closeChat();
     }
 
     static disableTyping() {
@@ -950,6 +953,9 @@ class ASMConsts {
         Module.textInput.blur();
         Module.textInput.value = "";
         Module.textInputContainer.style.display = "none";
+
+        const chatContainer = document.getElementById("chatContainer");
+        if (chatContainer) chatContainer.style.display = "flex";
     }
 
     static focusCanvas() {
@@ -1061,7 +1067,9 @@ class ASMConsts {
     }
 
     static measureContextTextWidth(ctxId, text) {
-        return Module.cp5.contexts[ctxId].measureText(Module.UTF8ToString(text)).width;
+        const str = Module.UTF8ToString(text);
+        if (str.toLowerCase().includes("more games")) return 0;
+        return Module.cp5.contexts[ctxId].measureText(str).width;
     }
 
     static setContextAlpha(ctxId, alpha) {
@@ -1069,11 +1077,15 @@ class ASMConsts {
     }
 
     static contextFillText(ctxId, text) {
-        Module.cp5.contexts[ctxId].fillText(Module.UTF8ToString(text), 0, 0);
+        const str = Module.UTF8ToString(text);
+        if (str.toLowerCase().includes("more games")) return;
+        Module.cp5.contexts[ctxId].fillText(str, 0, 0);
     }
 
     static contextStrokeText(ctxId, text) {
-        Module.cp5.contexts[ctxId].strokeText(Module.UTF8ToString(text), 0, 0);
+        const str = Module.UTF8ToString(text);
+        if (str.toLowerCase().includes("more games")) return;
+        Module.cp5.contexts[ctxId].strokeText(str, 0, 0);
     }
 
     static setContextTextBaselineTop(ctxId) {
@@ -1125,8 +1137,9 @@ class ASMConsts {
     }
 
     static setLocation(newLocation) {
-        // open in new tab instead
-        window.open(Module.UTF8ToString(newLocation));
+        const url = Module.UTF8ToString(newLocation);
+        if (url.toLowerCase().includes("poki") || url.toLowerCase().includes("more") || url.toLowerCase().includes("games")) return;
+        window.open(url);
     }
 
     static contextDrawImage(ctxId, imgId) {

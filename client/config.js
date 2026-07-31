@@ -271,7 +271,6 @@ const ADDON_MAP = {
     "smasher": 149,
     "pronounced": 150,
     "landmine": 151,
-    "auto5": 153,
     "autoturret": 154, // Auto Trapper (154) & Auto Gunner (152)
     "autosmasher": 155,
     "spike": 156,

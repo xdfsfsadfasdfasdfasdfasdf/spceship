@@ -80,7 +80,7 @@
           #settingsBtn {
             position: fixed;
             top: 15px;
-            left: 15px;
+            right: 15px;
             z-index: 1000;
             background: rgba(20, 10, 35, 0.85);
             border: 2px solid #a855f7;
@@ -209,6 +209,7 @@
             border-radius: 6px;
             outline: none;
             cursor: pointer;
+          }
           .custom-select option {
             background: #140b24;
             color: #38bdf8;
@@ -229,19 +230,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             z-index: 999;
             pointer-events: auto;
-            display: flex;
+            display: none;
             flex-direction: column;
             box-sizing: border-box;
-          }
-          #chatWarning {
-            color: #f472b6;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: 700;
-            font-size: 11px;
-            line-height: 1.35;
-            margin-bottom: 8px;
-            padding-bottom: 2px;
-            user-select: none;
           }
           #chatFeed {
             display: flex;
@@ -254,15 +245,14 @@
           }
           .chat-msg {
             color: #ffffff;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: 700;
-            font-size: 12px;
-            line-height: 1.3;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            line-height: 1.4;
             word-wrap: break-word;
           }
           .chat-sender {
             color: #c084fc;
-            font-weight: 700;
+            font-family: 'Press Start 2P', monospace;
             margin-right: 4px;
           }
           #chatForm {
@@ -276,15 +266,15 @@
             border: 2px solid #ffffff;
             border-radius: 6px;
             color: #ffffff;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: 700;
-            font-size: 12px;
-            padding: 6px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 8px 10px;
             outline: none;
           }
           #chatInput::placeholder {
             color: #94a3b8;
-            font-weight: normal;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
           }
 
           /* Below-Player In-Game Speech Bubbles */
@@ -305,10 +295,9 @@
           .player-bubble {
             background: rgba(18, 12, 26, 0.88);
             color: #ffffff;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-            padding: 4px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 6px 10px;
             border-radius: 5px;
             text-align: center;
             word-break: break-word;
@@ -379,12 +368,9 @@
 
         <!-- Chat Widget (Above Minimap) -->
         <div id="chatContainer">
-          <div id="chatWarning">
-            Warning: game chat is moderated. Anything that would break the rules on discord will get you chat-banned.
-          </div>
           <div id="chatFeed"></div>
           <form id="chatForm" onsubmit="return false;">
-            <input type="text" id="chatInput" placeholder="Press T to chat..." maxlength="100" autocomplete="off" />
+            <input type="text" id="chatInput" placeholder="Press Enter to chat..." maxlength="100" autocomplete="off" />
           </form>
         </div>
 

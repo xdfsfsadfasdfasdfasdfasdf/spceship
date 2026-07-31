@@ -109,7 +109,6 @@ export const enum Tank {
     Smasher       = 36,
     Landmine      = 37,
     AutoGunner    = 39,
-    Auto5 = 40,
     Auto4         = 41, Auto3 = 41,
     Streamliner   = 43,
     AutoTrapper   = 44,

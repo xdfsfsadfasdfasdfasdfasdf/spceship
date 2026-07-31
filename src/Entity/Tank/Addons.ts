@@ -271,15 +271,6 @@ class AutoSmasherAddon extends Addon {
     }
 }
 
-/** 5 Auto Turrets */
-class Auto5Addon extends Addon {
-    public constructor(owner: BarrelBase) {
-        super(owner);
-
-        this.createAutoTurrets(5);
-    }
-}
-
 /** 4 Auto Turrets */
 class Auto4Addon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -427,7 +418,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     dombase: DomBaseAddon,
     launcher: LauncherAddon,
     dompronounced: PronouncedDomAddon,
-    auto5: Auto5Addon,
     auto4: Auto4Addon,
     auto3: Auto3Addon,
     autosmasher: AutoSmasherAddon,
