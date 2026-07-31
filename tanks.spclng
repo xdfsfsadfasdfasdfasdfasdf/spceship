@@ -60,7 +60,7 @@ def twin:
 	branchto:
 		'Triplet',
 		'Quad Tank',
-		'Twin-Flank',
+		'Twin Flank',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -218,8 +218,7 @@ def flankGuard:
 	branchto:
 		'Satellite',
 		'Quad Tank',
-		'Twin-Flank',
-		'Auto 4',
+		'Twin Flank',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -270,7 +269,7 @@ def auto2:
 	level: 15,
 	displayname: 'Auto 2',
 	branchto:
-		'Auto-Auto 2',
+		'Auto Auto 2',
 		'Auto 4',
 	properties:
 		invis: inf,
@@ -441,7 +440,7 @@ def twinFlank:
 	id: 13,
 	tip: '',
 	level: 30,
-	displayname: 'Twin-Flank',
+	displayname: 'Twin Flank',
 	branchto:
 		'Quad Twin',
 		'Battleship',
@@ -604,7 +603,7 @@ def trapper:
 	level: 30,
 	displayname: 'Trapper',
 	branchto:
-		'Quad-Trapper',
+		'Quad Trapper',
 		'Overtrapper',
 		'Mega Trapper',
 		'Auto Trapper',
@@ -1674,7 +1673,7 @@ def factory:
 def quadTrapper:
 	id: 35,
 	level: 45,
-	displayname: 'Quad-Trapper',
+	displayname: 'Quad Trapper',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -2298,7 +2297,7 @@ def autoauto2:
 	id: temp,
 	tip: '', 
 	level: 45,
-	displayname: 'Auto-auto2',
+	displayname: 'Auto Auto 2',
 	hat: auto2,
 	properties:
 		invis: inf,

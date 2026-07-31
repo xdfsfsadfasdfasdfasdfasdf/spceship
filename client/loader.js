@@ -413,6 +413,12 @@ Module.todo.push([(dependency, servers, tanks) => {
             fieldStr: "executeCommand",
             kind: "func",
             type: types.vi
+        }),
+        onUpgradeRender: parser.addImportEntry({
+            moduleStr: "mods",
+            fieldStr: "onUpgradeRender",
+            kind: "func",
+            type: types.vn
         })
     };
 
@@ -421,7 +427,10 @@ Module.todo.push([(dependency, servers, tanks) => {
         loadChangelog: Module.loadChangelog,
         getTankDefinition: Module.getTankDefinition,
         findCommand: Module.getCommand,
-        executeCommand: Module.executeCommand
+        executeCommand: Module.executeCommand,
+        onUpgradeRender: () => {
+            if (window.notifyUpgradeRender) window.notifyUpgradeRender();
+        }
     };
 
     for(const addonId of Object.keys(CUSTOM_ADDONS)) {
@@ -506,7 +515,6 @@ Module.todo.push([(dependency, servers, tanks) => {
                 }
             }
         }
-        
 
         switch(index) {
             // modify load changelog function
@@ -556,7 +564,18 @@ Module.todo.push([(dependency, servers, tanks) => {
                 }
                 return new Uint8Array(arr);
             }
-
+            case 955: {
+                const arr = Array.from(bytes);
+                for(let i = 0; i < arr.length - 5; i++) {
+                    if(arr[i] === 0x43 && arr[i+1] === 0x00 && arr[i+2] === 0x00 && arr[i+3] === 0xaa && arr[i+4] === 0x42) {
+                        arr[i+1] = 0x00; arr[i+2] = 0x00; arr[i+3] = 0x5c; arr[i+4] = 0x44;
+                    }
+                    if(arr[i] === 0x43 && arr[i+1] === 0x00 && arr[i+2] === 0x00 && arr[i+3] === 0xc0 && arr[i+4] === 0x41) {
+                        arr[i+1] = 0x00; arr[i+2] = 0x00; arr[i+3] = 0x9b; arr[i+4] = 0x43;
+                    }
+                }
+                return new Uint8Array(arr);
+            }
             case 203: {
                 const arr = Array.from(bytes);
                 // 1. Convert 2-wide grid (41 02 74) to 5-wide grid (41 05 6e)
@@ -572,7 +591,10 @@ Module.todo.push([(dependency, servers, tanks) => {
                         arr[i+1] = 126;
                     }
                 }
-                return new Uint8Array(arr);
+                return new Uint8Array([
+                    OP_CALL, ...VarUint32ToArray(imports.onUpgradeRender.i32()),
+                    ...arr
+                ]);
             }
             case 207: {
                 const arr = Array.from(bytes);
@@ -931,16 +953,6 @@ class ASMConsts {
         Module.textInput.style.paddingLeft = "5px";
         Module.textInput.style.paddingRight = "5px";
         Module.textInput.disabled = !enabled;
-        Module.textInput.onkeydown = e => {
-            if (e.keyCode === 13 || e.key === "Enter") {
-                e.preventDefault();
-                e.stopPropagation();
-                const name = Module.textInput ? Module.textInput.value : "";
-                if (window.input && window.input.execute) {
-                    window.input.execute(`game_spawn ${name}`);
-                }
-            }
-        };
         Module.textInput.focus();
 
         const chatContainer = document.getElementById("chatContainer");
@@ -959,9 +971,14 @@ class ASMConsts {
     }
 
     static focusCanvas() {
+        const chatInput = document.getElementById("chatInput");
+        if (document.activeElement === chatInput) return;
+        const textInput = Module?.textInput;
+        if (document.activeElement === textInput) return;
+
         const canvas = document.getElementById("canvas");
-        if(document.activeElement && document.activeElement !== canvas) document.activeElement.blur()
-        canvas.focus();
+        if (document.activeElement && document.activeElement !== canvas) document.activeElement.blur();
+        if (canvas) canvas.focus();
     }
 
     static setCanvasSize(ctxId, width, height) {

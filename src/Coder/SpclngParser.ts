@@ -314,7 +314,7 @@ export class SpclngParser {
             "Destroyer": 10,
             "Overseer": 11,
             "Overlord": 12,
-            "Twin-Flank": 13, "TwinFlank": 13,
+            "Twin Flank": 13, "Twin-Flank": 13, "TwinFlank": 13,
             "Penta Shot": 14, "PentaShot": 14, "Octo Shot": 14, "OctoShot": 14, "Pentalet": 14,
             "Assassin": 15,
             "Arena Closer": 16, "ArenaCloser": 16,
@@ -334,7 +334,7 @@ export class SpclngParser {
             "Gunner Trapper": 32, "GunnerTrapper": 32,
             "Overtrapper": 33,
             "Mega Trapper": 34, "MegaTrapper": 34,
-            "Tri-Trapper": 35, "TriTrapper": 35, "Quad-Trapper": 35, "QuadTrapper": 35,
+            "Tri Trapper": 35, "Tri-Trapper": 35, "TriTrapper": 35, "Quad Trapper": 35, "Quad-Trapper": 35, "QuadTrapper": 35,
             "Smasher": 36,
             "Landmine": 37,
             "Auto Gunner": 39, "AutoGunner": 39,
@@ -353,9 +353,13 @@ export class SpclngParser {
             "Binary": 56
         };
 
-        let nextTempId = 100;
+        const usedIds = new Set<number>();
+        for (const val of Object.values(nameToIdMap)) {
+            if (typeof val === "number") usedIds.add(val);
+        }
         for (const tank of parsedTanks) {
             if (typeof tank.id === "number") {
+                usedIds.add(tank.id);
                 nameToIdMap[tank.displayname] = tank.id;
                 nameToIdMap[tank.name] = tank.id;
             }
@@ -363,12 +367,14 @@ export class SpclngParser {
 
         for (const tank of parsedTanks) {
             if (tank.id === "temp") {
-                while (Object.values(nameToIdMap).includes(nextTempId)) {
-                    nextTempId++;
+                let candidate = 0;
+                while (usedIds.has(candidate)) {
+                    candidate++;
                 }
-                tank.id = nextTempId++;
-                nameToIdMap[tank.displayname] = tank.id;
-                nameToIdMap[tank.name] = tank.id;
+                tank.id = candidate;
+                usedIds.add(candidate);
+                nameToIdMap[tank.displayname] = candidate;
+                nameToIdMap[tank.name] = candidate;
             }
         }
 

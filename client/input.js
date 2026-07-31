@@ -111,7 +111,8 @@ window.setupInput = () => {
 
     const settingToggleClassTreeEl = document.getElementById("settingToggleClassTree");
     const settingAutoLevelUpEl = document.getElementById("settingAutoLevelUp");
-    const settingCensoringEl = document.getElementById("settingCensoring");
+    const settingCensoringSliderEl = document.getElementById("settingCensoringSlider");
+    const settingCensoringLabelEl = document.getElementById("settingCensoringLabel");
     const settingsModalEl = document.getElementById("settingsModal");
     const settingsOverlay = document.getElementById("settingsOverlay");
     const settingsBtn = document.getElementById("settingsBtn");
@@ -133,12 +134,27 @@ window.setupInput = () => {
         };
     }
 
-    if (settingCensoringEl) {
-        settingCensoringEl.value = window.diepSettings.censoring || "No censoring";
-        settingCensoringEl.onchange = () => {
-            window.diepSettings.censoring = settingCensoringEl.value;
+    const CENSOR_MODES = ["No censoring", "****", "####", "(censored)"];
+
+    if (settingCensoringSliderEl) {
+        let currentMode = window.diepSettings.censoring || "No censoring";
+        let initialIdx = CENSOR_MODES.indexOf(currentMode);
+        if (initialIdx === -1) initialIdx = 0;
+        settingCensoringSliderEl.value = initialIdx;
+        if (settingCensoringLabelEl) settingCensoringLabelEl.textContent = CENSOR_MODES[initialIdx];
+
+        const handleSliderChange = () => {
+            const idx = parseInt(settingCensoringSliderEl.value, 10) || 0;
+            const mode = CENSOR_MODES[idx] || "No censoring";
+            window.diepSettings.censoring = mode;
+            if (settingCensoringLabelEl) settingCensoringLabelEl.textContent = mode;
             saveSettings();
         };
+
+        settingCensoringSliderEl.oninput = handleSliderChange;
+        settingCensoringSliderEl.onchange = handleSliderChange;
+        settingCensoringSliderEl.onmousedown = e => e.stopPropagation();
+        settingCensoringSliderEl.onclick = e => e.stopPropagation();
     }
 
     if (settingsModalEl) {
@@ -168,11 +184,36 @@ window.setupInput = () => {
         };
     }
 
-    // --- Chat System (Widget Above Minimap & Below-Player Speech Bubbles) ---
+    // --- Chat System (Widget Top Left & Below-Player Speech Bubbles) ---
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
     const chatFeed = document.getElementById("chatFeed");
+    const chatContainer = document.getElementById("chatContainer");
     const playerChatContainer = document.getElementById("playerChatContainer");
+
+    if (chatContainer) {
+        ["mousedown", "mouseup", "click", "pointerdown", "pointerup", "dblclick"].forEach(eventType => {
+            chatContainer.addEventListener(eventType, e => {
+                e.stopPropagation();
+            });
+        });
+    }
+
+    let lastUpgradeRenderTime = 0;
+    window.notifyUpgradeRender = () => {
+        lastUpgradeRenderTime = Date.now();
+    };
+
+    const updateChatPosition = () => {
+        if (!chatContainer) return;
+        const hasUpgrades = (Date.now() - lastUpgradeRenderTime) < 350;
+        if (hasUpgrades) {
+            chatContainer.classList.add("has-upgrades");
+        } else {
+            chatContainer.classList.remove("has-upgrades");
+        }
+    };
+    setInterval(updateChatPosition, 100);
 
     let playerMessages = []; // Stack of active speech bubbles below tank (max 3, 5s timeout)
 
@@ -206,8 +247,6 @@ window.setupInput = () => {
         renderPlayerBubbles();
     };
 
-    let lastChatActionTime = 0;
-
     window.chatSystem = {
         addMessage: (sender, text, senderId) => {
             if (!text) return;
@@ -235,17 +274,18 @@ window.setupInput = () => {
             addPlayerBubble(filteredText);
         },
         openChat: () => {
-            if (Date.now() - lastChatActionTime < 250) return;
-            lastChatActionTime = Date.now();
             window.setTyping(true);
+            if (chatContainer) chatContainer.style.display = "flex";
             if (chatInput) {
                 chatInput.focus();
                 chatInput.select();
             }
         },
         closeChat: () => {
-            lastChatActionTime = Date.now();
-            if (chatInput) chatInput.value = "";
+            if (chatInput) {
+                chatInput.value = "";
+                chatInput.blur();
+            }
             window.setTyping(false);
             if (document.activeElement && document.activeElement !== canvas) {
                 document.activeElement.blur();
@@ -253,7 +293,6 @@ window.setupInput = () => {
             if (canvas) canvas.focus();
         },
         sendChat: () => {
-            lastChatActionTime = Date.now();
             if (!chatInput) return;
             const val = chatInput.value.trim().slice(0, 100); // Max 100 chars
             if (val) {
@@ -279,15 +318,14 @@ window.setupInput = () => {
         }
     };
 
-    if (chatForm) {
-        chatForm.onsubmit = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.chatSystem.sendChat();
-        };
-    }
-
     if (chatInput) {
+        chatInput.onmousedown = e => {
+            e.stopPropagation();
+        };
+        chatInput.onclick = e => {
+            e.stopPropagation();
+            chatInput.focus();
+        };
         chatInput.onkeydown = e => {
             e.stopPropagation();
             if (e.keyCode === 13 || e.key === "Enter") { // Enter key sends message
@@ -327,31 +365,22 @@ window.setupInput = () => {
 
         const isEnterKey = e.keyCode === 13 || e.key === "Enter";
 
-        // Main Menu: Submit nickname and spawn tank when pressing Enter
-        if (isTextInputActive()) {
-            if (isEnterKey) {
-                e.preventDefault();
-                const name = Module.textInput ? Module.textInput.value : "";
-                if (window.input && window.input.execute) {
-                    window.input.execute(`game_spawn ${name}`);
-                }
-            }
-            return;
-        }
-
-        // In-Game: Press 'Enter' key to open chat when not typing
+        // Press 'Enter' key to open chat when not typing
         if (isEnterKey && !checkIsTyping()) {
-            if (Date.now() - lastChatActionTime < 250) {
-                e.preventDefault();
-                return;
-            }
             e.preventDefault();
+            e.stopPropagation();
             window.chatSystem.openChat();
             return;
         }
 
-        // Ignore game keybinds if currently typing in an input field (e.g. chat input)
-        if (checkIsTyping()) return;
+        // Ignore game keybinds if currently typing in an input field (EXCEPT Enter key when spawn name textInput is active)
+        if (checkIsTyping()) {
+            if (isEnterKey && (isTextInputActive() || !chatInput || document.activeElement !== chatInput)) {
+                // Allow Enter key to pass through to window.input.keyDown(13) so WASM submits name and spawns tank
+            } else {
+                return;
+            }
+        }
 
         // Y key: Toggle class tree mode vs hold mode
         if (e.keyCode === 89) {
@@ -374,7 +403,16 @@ window.setupInput = () => {
     };
 
     const handleKeyUp = e => {
-        if (isTextInputActive() || checkIsTyping()) return;
+        const isEnterKey = e.keyCode === 13 || e.key === "Enter";
+
+        // Ignore game keybinds if currently typing in an input field (EXCEPT Enter key when spawn name textInput is active)
+        if (checkIsTyping()) {
+            if (isEnterKey && (isTextInputActive() || !chatInput || document.activeElement !== chatInput)) {
+                // Allow Enter keyup to pass through to window.input.keyUp(13)
+            } else {
+                return;
+            }
+        }
 
         // Y key: Ignore keyup in toggle mode
         if (e.keyCode === 89 && window.diepSettings.toggleClassTree) {
@@ -389,6 +427,8 @@ window.setupInput = () => {
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     canvas.onclick = window.onclick = () => window.input.flushInputHooks();
 
