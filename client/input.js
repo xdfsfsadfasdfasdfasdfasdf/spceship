@@ -244,8 +244,10 @@ window.setupInput = () => {
         closeChat: () => {
             if (chatInput) chatInput.value = "";
             window.setTyping(false);
-            if (document.activeElement && document.activeElement !== canvas) document.activeElement.blur();
-            canvas.focus();
+            if (document.activeElement && document.activeElement !== canvas) {
+                document.activeElement.blur();
+            }
+            if (canvas) canvas.focus();
         },
         sendChat: () => {
             if (!chatInput) return;
@@ -276,10 +278,10 @@ window.setupInput = () => {
     if (chatInput) {
         chatInput.onkeydown = e => {
             e.stopPropagation();
-            if (e.keyCode === 13) { // Enter key sends message
+            if (e.keyCode === 13 || e.key === "Enter") { // Enter key sends message
                 e.preventDefault();
                 window.chatSystem.sendChat();
-            } else if (e.keyCode === 27) { // Escape key cancels chat
+            } else if (e.keyCode === 27 || e.key === "Escape") { // Escape key cancels chat
                 e.preventDefault();
                 window.chatSystem.closeChat();
             }
@@ -294,15 +296,23 @@ window.setupInput = () => {
 
     let isClassTreeOpen = false;
 
-    window.onkeydown = e => {
+    const checkIsTyping = () => {
+        const active = document.activeElement;
+        return isTyping || (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA"));
+    };
+
+    const handleKeyDown = e => {
         if (e.repeat) return;
 
         // Press 'T' key to open chat when not typing
-        if ((e.keyCode === 84 || e.code === "KeyT" || e.key === "t" || e.key === "T") && !isTyping) {
+        if ((e.keyCode === 84 || e.code === "KeyT" || e.key === "t" || e.key === "T") && !checkIsTyping()) {
             e.preventDefault();
             window.chatSystem.openChat();
             return;
         }
+
+        // Ignore game keybinds if currently typing in an input field
+        if (checkIsTyping()) return;
 
         // Y key: Toggle class tree mode vs hold mode
         if (e.keyCode === 89) {
@@ -321,10 +331,13 @@ window.setupInput = () => {
         window.input.flushInputHooks();
         if(e.keyCode >= 112 && e.keyCode <= 130 && e.keyCode !== 113) return;
         window.input.keyDown(e.keyCode);
-        if(e.keyCode === 9 || !isTyping && e.ctrlKey && e.metaKey) e.preventDefault();
-    }
+        if(e.keyCode === 9 || (!isTyping && e.ctrlKey && e.metaKey)) e.preventDefault();
+    };
 
-    window.onkeyup = e => {
+    const handleKeyUp = e => {
+        // Ignore game keybinds if currently typing in an input field
+        if (checkIsTyping()) return;
+
         // Y key: Ignore keyup in toggle mode
         if (e.keyCode === 89 && window.diepSettings.toggleClassTree) {
             return;
@@ -333,8 +346,13 @@ window.setupInput = () => {
         window.input.flushInputHooks();
         if(e.keyCode >= 112 && e.keyCode <= 130 && e.keyCode !== 113) return;
         window.input.keyUp(e.keyCode);
-        if(e.keyCode === 9 || !isTyping && e.ctrlKey && e.metaKey) e.preventDefault();
-    }
+        if(e.keyCode === 9 || (!isTyping && e.ctrlKey && e.metaKey)) e.preventDefault();
+    };
+
+    window.onkeydown = handleKeyDown;
+    window.onkeyup = handleKeyUp;
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     canvas.onclick = window.onclick = () => window.input.flushInputHooks();
 

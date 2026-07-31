@@ -842,7 +842,7 @@ def auto4:
 	level: 30,
 	displayname: 'Auto 4',
 	branchto:
-		'Auto 8',
+		'Auto 5',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -1072,10 +1072,10 @@ def pentalet:
 		maxhealth: 7,
 		movespeed: 7,
 
-def auto8:
+def auto5:
 	id: 40,
 	level: 45,
-	displayname: 'Auto 8',
+	displayname: 'Auto 5',
 	properties:
 		invis: inf,
 		zoom: false,
@@ -1097,7 +1097,7 @@ def auto8:
 		spin: 0,
 		guns:
 			flank:
-				repeat: 8,
+				repeat: 5,
 				startangle: 0,
 				guns:
 					type: auto,
