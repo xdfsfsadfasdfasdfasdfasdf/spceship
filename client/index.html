@@ -65,15 +65,27 @@
           #textInputContainer {
             display: none;
             position: absolute;
+            z-index: 100;
+            pointer-events: auto;
           }
     
           #textInput {
-            background-color: transparent;
+            background-color: #12091f;
             font-family: 'Press Start 2P', cursive, monospace;
-            color: #111827;
-            padding: 0;
-            border: 0;
+            color: #ffffff;
+            padding: 0 8px;
+            border: 2px solid #a855f7;
+            border-radius: 6px;
             outline: none;
+            pointer-events: auto;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+            text-align: center;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+          }
+          #textInput:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
           }
 
           /* Settings Button */

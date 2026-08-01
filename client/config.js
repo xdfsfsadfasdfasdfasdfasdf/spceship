@@ -333,9 +333,9 @@ const CUSTOM_ADDONS = {
 
             const barrel = socket.createChild(true);
             barrel.defaults();
-            barrel.physicsData.size = 55;
+            barrel.physicsData.size = 87;
             barrel.physicsData.sides = 2;
-            barrel.physicsData.width = 0.7 * 42;
+            barrel.physicsData.width = 40;
             // angle + shootingAngle
             barrel.positionData.angle = 0;
             // Math.cos(angle) * (size / 2 + distance) - Math.sin(angle) * offset

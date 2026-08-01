@@ -113,8 +113,8 @@ export class Addon {
 const AutoTurretMiniDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 55,
-    width: 42 * 0.7,
+    size: 87,
+    width: 40,
     delay: 0.01,
     reload: 1,
     recoil: 0.3,
@@ -258,7 +258,8 @@ class AutoTurretAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
-        new AutoTurret(owner);
+        const turret = new AutoTurret(owner);
+        turret.styleData.values.flags |= StyleFlags.showsAboveParent;
     }
 }
 
@@ -268,7 +269,8 @@ class AutoSmasherAddon extends Addon {
         super(owner);
 
         this.createGuard(6, 1.15, 0, .1);
-        new AutoTurret(owner);
+        const turret = new AutoTurret(owner);
+        turret.styleData.values.flags |= StyleFlags.showsAboveParent;
     }
 }
 

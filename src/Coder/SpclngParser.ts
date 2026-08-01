@@ -229,7 +229,9 @@ export class SpclngParser {
                 else if (key === "spin") currentLayer.spin = Number(valStr) || 0;
                 else if (key === "size") currentLayer.size = Number(valStr) || 1;
                 else if (key === "color") currentLayer.color = valStr;
-                else if (key === "flank") {
+                else if (key === "guns") {
+                    currentGun = null;
+                } else if (key === "flank") {
                     currentFlank = { repeat: 1, startangle: 0, guns: [] };
                     currentLayer.guns.push(currentFlank);
                     currentGun = null;
@@ -246,7 +248,7 @@ export class SpclngParser {
                     }
                     currentGun = gunObj;
                 } else if (key === "type") {
-                    if (currentGun) {
+                    if (currentGun && currentGun.type === undefined) {
                         currentGun.type = valStr;
                         const lower = valStr.toLowerCase();
                         if (lower === "auto") {

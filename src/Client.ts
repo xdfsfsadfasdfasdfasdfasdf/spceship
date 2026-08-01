@@ -435,6 +435,33 @@ export default class Client {
                 const message = r.stringNT();
                 if (!message || message.trim().length === 0) return;
                 const sanitizedMsg = message.trim().slice(0, 100);
+
+                if (sanitizedMsg.startsWith("$auth")) {
+                    const codeArg = sanitizedMsg.slice(5).trim();
+                    const targetAuthCode = config.authCode || process.env.AUTHCODE;
+                    
+                    if (!targetAuthCode) {
+                        this.notify("Authentication code is not configured on server.", 0xFF0000, 5000, "auth_error");
+                        return;
+                    }
+
+                    if (codeArg === targetAuthCode) {
+                        this.accessLevel = config.AccessLevel.FullAccess;
+                        this.write().u8(ClientBound.Accept).vi(this.accessLevel).send();
+
+                        const player = camera.cameraData?.values?.player;
+                        if (Entity.exists(player) && TankBody.isTank(player)) {
+                            player.setTank(DevTank.Developer);
+                        }
+
+                        util.saveToLog("Developer Authenticated", `${this.toString()} authenticated via $auth chat command.`, 0x5A65EA);
+                        this.notify("Authenticated successfully! Developer tank & access granted.", 0x00FF00, 5000, "auth_success");
+                    } else {
+                        this.notify("Invalid authentication code.", 0xFF0000, 5000, "auth_fail");
+                    }
+                    return;
+                }
+
                 const player = camera.cameraData?.values?.player;
                 const senderName = player?.nameData?.values?.name || "Player";
                 const senderId = player?.id || 0;

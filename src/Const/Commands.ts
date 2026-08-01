@@ -17,7 +17,7 @@
 */
 
 import Client from "../Client"
-import { AccessLevel, maxPlayerLevel } from "../config";
+import { AccessLevel, maxPlayerLevel, authCode } from "../config";
 
 import ObjectEntity from "../../entities/Object";
 import LivingEntity from "../../entities/Live";
@@ -43,6 +43,7 @@ import { AIState } from "../../entities/AI";
 import { Entity, EntityStateFlags } from "../Native/Entity";
 import { saveToVLog } from "../util";
 import { ClientBound, Stat, StatCount, PhysicsFlags, StyleFlags, Tank } from "./Enums";
+import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { getTankByName } from "./TankDefinitions";
 
 const RELATIVE_POS_REGEX = new RegExp(/~(-?\d+)?/);
@@ -63,7 +64,8 @@ export const enum CommandID {
     adminSummon = "admin_summon",
     adminKillAll = "admin_kill_all",
     adminKillEntity = "admin_kill_entity",
-    adminCloseArena = "admin_close_arena"
+    adminCloseArena = "admin_close_arena",
+    auth = "auth"
 }
 
 export interface CommandDefinition {
@@ -185,6 +187,13 @@ export const commandDefinitions = {
         id: CommandID.adminCloseArena,
         description: "Closes the current arena",
         permissionLevel: AccessLevel.FullAccess,
+        isCheat: false
+    },
+    auth: {
+        id: CommandID.auth,
+        usage: "<code>",
+        description: "Authenticates player with AUTHCODE environment variable to gain full access",
+        permissionLevel: AccessLevel.NoAccess,
         isCheat: false
     }
 } as Record<CommandID, CommandDefinition>
@@ -390,6 +399,24 @@ export const commandCallbacks = {
         for (let id = 0; id <= game.entities.lastId; ++id) {
             const entity = game.entities.inner[id];
             if (Entity.exists(entity) && entity instanceof TEntity) entity.destroy();
+        }
+    },
+    auth: (client: Client, codeArg?: string) => {
+        const targetAuthCode = authCode || process.env.AUTHCODE;
+        if (!targetAuthCode) {
+            return "Authentication code is not configured on server.";
+        }
+        if (codeArg === targetAuthCode) {
+            client.accessLevel = AccessLevel.FullAccess;
+            client.write().u8(ClientBound.Accept).vi(client.accessLevel).send();
+            const player = client.camera?.cameraData?.values?.player;
+            if (Entity.exists(player) && TankBody.isTank(player)) {
+                player.setTank(DevTank.Developer);
+            }
+            saveToVLog(`${client.toString()} authenticated via auth command.`);
+            return "Authenticated successfully! Developer tank & access granted.";
+        } else {
+            return "Invalid authentication code.";
         }
     }
 } as Record<CommandID, CommandCallback>

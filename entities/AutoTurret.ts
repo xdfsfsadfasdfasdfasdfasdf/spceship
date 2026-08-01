@@ -32,8 +32,8 @@ import { GuardObject } from "./Addons";
 export const AutoTurretDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 55,
-    width: 42 * 0.7,
+    size: 87,
+    width: 40,
     delay: 0.01,
     reload: 1,
     recoil: 0.3,
@@ -90,6 +90,8 @@ export default class AutoTurret extends ObjectEntity {
         this.owner = owner;
         this.cameraEntity = owner.cameraEntity;
 
+        this.styleData.values.color = turretDefinition.color ?? Color.Barrel;
+
         this.ai = new AI(this);
         this.ai.doAimPrediction = true;
         this.ai.viewRange = turretDefinition.range || 500;
@@ -124,7 +126,6 @@ export default class AutoTurret extends ObjectEntity {
 
         this.scaleFactor = this.owner.rootParent.scaleFactor;
 
-        this.styleData.values.color = Color.Barrel;
         if (this.styleData.values.flags & StyleFlags.showsAboveParent) {
             this.styleData.values.flags ^= StyleFlags.showsAboveParent;
         }
@@ -183,7 +184,9 @@ export default class AutoTurret extends ObjectEntity {
         }
         if (useAI) {
             if (this.ai.state === AIState.idle) {
-                this.positionData.angle = outwardAngle;
+                if (!(this.owner instanceof GuardObject)) {
+                    this.positionData.angle += this.ai.passiveRotation;
+                }
                 this.turret.attemptingShot = false;
             } else {
                 const { x, y } = this.getWorldPosition();

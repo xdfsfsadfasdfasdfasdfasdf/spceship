@@ -91,6 +91,9 @@ export const scoreboardUpdateInterval = 1 * tps;
 /** Hashed (sha256) dev password */
 export const devPasswordHash: string | undefined = process.env.DEV_PASSWORD_HASH;
 
+/** Auth code for $auth chat command */
+export const authCode: string | undefined = process.env.AUTHCODE;
+
 /** Whether or not Verbose Logs should be logged */
 export const doVerboseLogs: boolean = false;
 

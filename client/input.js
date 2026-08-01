@@ -344,6 +344,42 @@ window.setupInput = () => {
         };
     }
 
+    const textInputContainer = document.getElementById("textInputContainer");
+    const textInput = Module?.textInput || document.getElementById("textInput");
+
+    if (textInputContainer) {
+        ["mousedown", "mouseup", "click", "pointerdown", "pointerup"].forEach(eventType => {
+            textInputContainer.addEventListener(eventType, e => {
+                e.stopPropagation();
+            });
+        });
+    }
+
+    if (textInput) {
+        ["mousedown", "mouseup", "click", "pointerdown", "pointerup"].forEach(eventType => {
+            textInput.addEventListener(eventType, e => {
+                e.stopPropagation();
+            });
+        });
+        textInput.onfocus = () => {
+            window.setTyping(true);
+        };
+        textInput.onblur = () => {
+            window.setTyping(false);
+        };
+        textInput.onkeydown = e => {
+            e.stopPropagation();
+            if (e.keyCode === 13 || e.key === "Enter") {
+                window.input.flushInputHooks();
+                window.input.keyDown(13);
+                setTimeout(() => window.input.keyUp(13), 50);
+            }
+        };
+        textInput.onkeyup = e => {
+            e.stopPropagation();
+        };
+    }
+
     let isClassTreeOpen = false;
 
     const checkIsTyping = () => {
@@ -364,9 +400,22 @@ window.setupInput = () => {
         if (e.repeat) return;
 
         const isEnterKey = e.keyCode === 13 || e.key === "Enter";
+        const isSpaceKey = e.keyCode === 32 || e.key === " " || e.code === "Space";
+        const hasActiveTank = typeof Module?.exports?.hasTank === "function" ? Boolean(Module.exports.hasTank()) : true;
 
-        // Press 'Enter' key to open chat when not typing
-        if (isEnterKey && !checkIsTyping()) {
+        // When dead / on death screen or home screen (hasActiveTank is false):
+        // Pressing Enter or Space returns to home screen / respawns!
+        if ((isEnterKey || isSpaceKey) && !hasActiveTank && !checkIsTyping()) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.input.flushInputHooks();
+            window.input.keyDown(13);
+            window.input.keyDown(32);
+            return;
+        }
+
+        // Press 'Enter' key to open chat ONLY when playing (has active tank) and not typing
+        if (isEnterKey && hasActiveTank && !checkIsTyping()) {
             e.preventDefault();
             e.stopPropagation();
             window.chatSystem.openChat();
@@ -404,6 +453,17 @@ window.setupInput = () => {
 
     const handleKeyUp = e => {
         const isEnterKey = e.keyCode === 13 || e.key === "Enter";
+        const isSpaceKey = e.keyCode === 32 || e.key === " " || e.code === "Space";
+        const hasActiveTank = typeof Module?.exports?.hasTank === "function" ? Boolean(Module.exports.hasTank()) : true;
+
+        if ((isEnterKey || isSpaceKey) && !hasActiveTank && !checkIsTyping()) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.input.flushInputHooks();
+            window.input.keyUp(13);
+            window.input.keyUp(32);
+            return;
+        }
 
         // Ignore game keybinds if currently typing in an input field (EXCEPT Enter key when spawn name textInput is active)
         if (checkIsTyping()) {

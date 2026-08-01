@@ -9,3 +9,5 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
+      - key: AUTHCODE
+        sync: false

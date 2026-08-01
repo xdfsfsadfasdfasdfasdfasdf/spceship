@@ -199,7 +199,9 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                 autoTurret.positionData.values.x = x;
                 autoTurret.positionData.values.y = y;
                 autoTurret.influencedByOwnerInputs = true;
-                if (autoTurret.styleData.values.flags & StyleFlags.showsAboveParent) {
+                if (x === 0 && y === 0) {
+                    autoTurret.styleData.values.flags |= StyleFlags.showsAboveParent;
+                } else if (autoTurret.styleData.values.flags & StyleFlags.showsAboveParent) {
                     autoTurret.styleData.values.flags ^= StyleFlags.showsAboveParent;
                 }
             } else {
@@ -339,18 +341,10 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     }
 
     public tick(tick: number) {
-        const shouldSpin = Boolean(
-            (this.definition.spin && this.definition.spin > 0) ||
-            this.definition.barrels.some(b => b.isAuto) ||
-            this.definition.postAddon === "autoturret" ||
-            this.definition.postAddon === "auto2" ||
-            this.definition.postAddon === "auto3" ||
-            this.definition.postAddon === "auto4" ||
-            this.definition.postAddon === "autosmasher"
-        );
+        const shouldSpin = Boolean(this.definition.spin && this.definition.spin > 0);
 
         if (shouldSpin) {
-            this.positionData.angle += (this.definition.spin ? this.definition.spin * 0.02 : 0.01);
+            this.positionData.angle += (this.definition.spin! * 0.02);
         } else {
             this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
         }

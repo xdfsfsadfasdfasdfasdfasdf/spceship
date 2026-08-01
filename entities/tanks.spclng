@@ -261,15 +261,12 @@ def auto2:
 			flank:
 			repeat: 2,
 			startangle: 0,
-				guns:
-					auto:
-						type: gun,
-						width: 42,
-						length: 95,
-						delay: 0,
-						offset: 0,
-						angle: 0,
-						bullet: -1,
+				auto:
+					width: 40,
+					length: 87,
+					delay: 0,
+					offset: 0,
+					angle: 0
 
 	stats:
 		correction: 7,
@@ -310,15 +307,12 @@ def overauto2:
 			flank:
 			repeat: 2,
 			startangle: 0,
-				guns:
-					auto:
-						type: gun,
-						width: 42,
-						length: 95,
-						delay: 0,
-						offset: 0,
-						angle: 0,
-						bullet: -1,
+				auto:
+					width: 40,
+					length: 87,
+					delay: 0,
+					offset: 0,
+					angle: 0
 
 			flank:
 			repeat: 2,
@@ -896,15 +890,12 @@ def auto4:
 			flank:
 			repeat: 4,
 			startangle: 0,
-				guns:
-					auto:
-						type: gun,
-						width: 38,
-						length: 90,
-						delay: 0,
-						offset: 0,
-						angle: 0,
-						bullet: -1,
+				auto:
+					width: 40,
+					length: 87,
+					delay: 0,
+					offset: 0,
+					angle: 0
 
 	stats:
 		correction: 7,
