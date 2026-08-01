@@ -1,0 +1,25 @@
+label: 'Boss War'
+
+teams: 1
+
+size: 7000
+
+bossspawn: all
+
+type: bsf
+
+isaval: true
+
+gridx: 9
+gridy: 9
+grid:
+
+ssseeeeee
+ssseeeebe
+ssseeeeee
+ssseeeebe
+ssseeeeee
+ssseeeebe
+ssseeeeee
+ssseeeebe
+ssseeeeee

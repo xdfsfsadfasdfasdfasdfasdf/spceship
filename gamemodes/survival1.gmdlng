@@ -1,0 +1,26 @@
+label: 'Survival'
+
+teams: 0
+
+size: 11950
+
+bossspawn: none
+
+type: ffa
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+eeeeeeeeee
+eeeeeeeeee
+eeeeeeeeee
+eeennnneee
+eeennnneee
+eeennnneee
+eeennnneee
+eeeeeeeeee
+eeeeeeeeee
+eeeeeeeeee

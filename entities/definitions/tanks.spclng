@@ -282,7 +282,7 @@ def auto2:
 
 def overauto2:
 	id: temp,
-	tip: 'add smh here',
+	tip: 'Right click to repel your drones.',
 	level: 45,
 	displayname: 'Overauto 2',
 	properties:

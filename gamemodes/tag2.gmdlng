@@ -1,0 +1,26 @@
+label: 'Tag'
+
+teams: 2
+
+size: 11950
+
+bossspawn: weak
+
+type: tag
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+bbeeeeeeee
+bbeeeeeeee
+eeeeeeeeee
+eeeeeeeeee
+eeennnneee
+eeennnneee
+eeeeeeeeee
+eeeeeeeeee
+eeeeeeeerr
+eeeeeeeerr

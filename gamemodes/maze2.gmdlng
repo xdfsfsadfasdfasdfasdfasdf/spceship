@@ -1,0 +1,26 @@
+label: 'Maze'
+
+teams: 2
+
+size: 11950
+
+bossspawn: weak
+
+type: tdm
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+bbhhhhhhhh
+bbhhhhhhhh
+hhhhhhehhh
+hhhehhhhhh
+hhennnnehh
+hhennnnehh
+hhhhhhhehh
+hhhehhehhh
+hhhhhhhhrr
+hhhhhhhhrr

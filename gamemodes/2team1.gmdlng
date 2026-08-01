@@ -18,8 +18,13 @@ teams: 2
 size: 11950
 /* size */
 
-bossspawn: true
-/* do low end bosses spawn */
+bossspawn: weak
+/*
+weak: summoner, guardianofthepentagons, defender, all fallen bosses
+strong: none of the above bosses e.g. celestials
+none: no bosses
+all: all bosses
+*/
 
 type: tdm 
 
@@ -60,9 +65,9 @@ o: orange team
 w: brown team
 t: teal team
 
-n: nest
+z: nest
 s: boss spawn
-z: nest + boss spawn
+n: nest + boss spawn
 e: empty
 h: hallways (in maze)
 d: edge

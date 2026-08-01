@@ -1,0 +1,26 @@
+label: '4TDM'
+
+teams: 4
+
+size: 11950
+
+bossspawn: weak
+
+type: tdm
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+bbeehhhhpp
+bbeehhhhpp
+hhhhhshhhh
+hhennnnehh
+hhennnnehh
+hhennnnehh
+hhennnnehh
+hhhhhshhhh
+ggeehhhhrr
+ggeehhhhrr

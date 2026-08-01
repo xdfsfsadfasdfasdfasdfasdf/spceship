@@ -1,0 +1,26 @@
+label: '2TDM'
+
+teams: 2
+
+size: 11950
+
+bossspawn: weak
+
+type: tdm 
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+nnhhhhhhnn
+nnhhhhhhnn
+hhhhhhhhhh
+hhbbhhrrhh
+hhbbhhrrhh
+hhbbhhrrhh
+hhbbhhrrhh
+hhhhhhhhhh
+nnhhhhhhnn
+nnhhhhhhnn

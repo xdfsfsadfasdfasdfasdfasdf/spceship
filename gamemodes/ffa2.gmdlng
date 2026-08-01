@@ -1,0 +1,26 @@
+label: 'FFA'
+
+teams: 0
+
+size: 11950
+
+bossspawn: weak
+
+type: ffa
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+zzhhhhhhzz
+zzhhhhhhzz
+hhseeeeehh
+hheeeeeehh
+hheeeeeehh
+hheeeeeehh
+hheeeeeehh
+hhseeeeehh
+zzhhhhhhzz
+zzhhhhhhzz

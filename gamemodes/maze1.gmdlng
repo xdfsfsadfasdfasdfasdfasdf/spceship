@@ -1,0 +1,26 @@
+label: 'Maze'
+
+teams: 0
+
+size: 11950
+
+bossspawn: weak
+
+type: ffa
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+hhhhhhhhhh
+hheehhhheh
+hhhehhhhhh
+hhehhhhehh
+hhhhhzzhhh
+hhhhhzzhhh
+hhehhehhhh
+hhhhhhhehh
+hehhehhheh
+hhhhhhhhhh

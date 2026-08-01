@@ -1,0 +1,26 @@
+label: 'Domination'
+
+teams: 4
+
+size: 11950
+
+bossspawn: none
+
+type: dom
+
+isaval: true
+
+gridx: 10
+gridy: 10
+grid:
+
+bbeeeeeepp
+bbeeeeeepp
+eeeeeeeeee
+eeennnneee
+eeennnneee
+eeennnneee
+eeennnneee
+eeeeeeeeee
+ggeeeeeerr
+ggeeeeeerr

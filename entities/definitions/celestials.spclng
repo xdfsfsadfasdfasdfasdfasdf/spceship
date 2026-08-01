@@ -1,0 +1,758 @@
+// Celestial Planet Boss definitions in SPCLNG format
+
+def mercury:
+	id: temp,
+	tip: 'Celestial of Mercury - Gunner, Skimmer & Trapper',
+	level: 45,
+	displayname: 'Mercury',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 120,
+		healthregen: 2,
+		fov: 1.8,
+		movespeed: 0.6,
+		bodydmg: 4,
+		correction: 1,
+		reload: 1,
+		damage: 1.5,
+		speed: 1.2,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.2,
+		color: '#a6a6a6',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 60,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.4,
+		color: '#d9d9d9',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: skimmer,
+					width: 50,
+					length: 90,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.6,
+		color: '#ffffff',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 25,
+					length: 80,
+					delay: 0,
+					offset: 12,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 25,
+					length: 80,
+					delay: 0.5,
+					offset: -12,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def venus:
+	id: temp,
+	tip: 'Celestial of Venus - Triplet, Overseer & Trapper',
+	level: 45,
+	displayname: 'Venus',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 130,
+		healthregen: 2,
+		fov: 1.8,
+		movespeed: 0.55,
+		bodydmg: 4,
+		correction: 1,
+		reload: 1,
+		damage: 1.5,
+		speed: 1.2,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.2,
+		color: '#e6c280',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 60,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.4,
+		color: '#ffd993',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: drone,
+					width: 55,
+					length: 110,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -6,
+					children: 12,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.6,
+		color: '#fff2cc',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 35,
+					length: 85,
+					delay: 0,
+					offset: 20,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 35,
+					length: 85,
+					delay: 0,
+					offset: -20,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 40,
+					length: 95,
+					delay: 0.5,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def terra:
+	id: temp,
+	tip: 'Celestial of Terra - Destroyer, Necromancer & Trapper',
+	level: 45,
+	displayname: 'Terra',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 140,
+		healthregen: 2,
+		fov: 1.8,
+		movespeed: 0.5,
+		bodydmg: 4.5,
+		correction: 1,
+		reload: 1.2,
+		damage: 2,
+		speed: 1.3,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.2,
+		color: '#4a86e8',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 60,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.4,
+		color: '#6aa84f',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: necrodrone,
+					width: 55,
+					length: 110,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -6,
+					children: 24,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.6,
+		color: '#c9daf8',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 70,
+					length: 110,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def mars:
+	id: temp,
+	tip: 'Celestial of Mars - Sprayer, Rocketeer & Trapper',
+	level: 45,
+	displayname: 'Mars',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 135,
+		healthregen: 2,
+		fov: 1.8,
+		movespeed: 0.55,
+		bodydmg: 4,
+		correction: 1,
+		reload: 0.8,
+		damage: 1.5,
+		speed: 1.4,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.2,
+		color: '#cc0000',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 60,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.4,
+		color: '#e69138',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: rocket,
+					width: 55,
+					length: 105,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.6,
+		color: '#f6b26b',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 45,
+					length: 90,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 25,
+					length: 105,
+					delay: 0.5,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def jupiter:
+	id: temp,
+	tip: 'Celestial of Jupiter - Ranger, Factory & Mega Trapper',
+	level: 45,
+	displayname: 'Jupiter',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 160,
+		healthregen: 2.5,
+		fov: 2.2,
+		movespeed: 0.45,
+		bodydmg: 5,
+		correction: 1,
+		reload: 1,
+		damage: 2,
+		speed: 1.5,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.6,
+		color: '#b45f06',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 85,
+					length: 120,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.7,
+		color: '#e69138',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: minion,
+					width: 60,
+					length: 115,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -6,
+					children: 8,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.8,
+		color: '#fce5cd',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 40,
+					length: 140,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def saturn:
+	id: temp,
+	tip: 'Celestial of Saturn - Predator, Battleship & Mega Trapper',
+	level: 45,
+	displayname: 'Saturn',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 155,
+		healthregen: 2.5,
+		fov: 2.2,
+		movespeed: 0.45,
+		bodydmg: 5,
+		correction: 1,
+		reload: 1,
+		damage: 1.8,
+		speed: 1.4,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.6,
+		color: '#bf9000',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 85,
+					length: 120,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.7,
+		color: '#ffd966',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: swarm,
+					width: 40,
+					length: 90,
+					delay: 0,
+					offset: 15,
+					angle: 0,
+					bullet: -6,
+					children: 16,
+
+					type: swarm,
+					width: 40,
+					length: 90,
+					delay: 0.5,
+					offset: -15,
+					angle: 0,
+					bullet: -6,
+					children: 16,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.8,
+		color: '#fff2cc',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 50,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 40,
+					length: 120,
+					delay: 0.33,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+					type: gun,
+					width: 30,
+					length: 140,
+					delay: 0.66,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def ouranous:
+	id: temp,
+	tip: 'Celestial of Ouranous - Annihilator, Auto-Smasher Missiles & Mega Trapper',
+	level: 45,
+	displayname: 'Ouranous',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 170,
+		healthregen: 2.5,
+		fov: 2,
+		movespeed: 0.4,
+		bodydmg: 6,
+		correction: 1,
+		reload: 1.2,
+		damage: 2.5,
+		speed: 1.3,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.6,
+		color: '#1155cc',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 85,
+					length: 120,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.7,
+		color: '#3c78d8',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: rocket,
+					width: 65,
+					length: 110,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.8,
+		color: '#a4c2f4',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: gun,
+					width: 85,
+					length: 120,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
+
+def neptune:
+	id: temp,
+	tip: 'Celestial of Neptune - Auto-Bullet Cannons, Tri-Trapper Missiles & Mega Trapper',
+	level: 45,
+	displayname: 'Neptune',
+	properties:
+		invis: inf,
+		zoom: false,
+		infects: false,
+		devonly: false,
+		maxhealth: 180,
+		healthregen: 3,
+		fov: 2.2,
+		movespeed: 0.4,
+		bodydmg: 6,
+		correction: 1,
+		reload: 1,
+		damage: 2.5,
+		speed: 1.5,
+		life: 1,
+
+	layer 1:
+		sides: 8,
+		spin: 1,
+		size: 3.6,
+		color: '#000080',
+		guns:
+			flank:
+				repeat: 8,
+				startangle: 0,
+				guns:
+					type: trap,
+					width: 85,
+					length: 120,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -2,
+
+	layer 2:
+		sides: 6,
+		spin: -1,
+		size: 2.7,
+		color: '#1c4587',
+		guns:
+			flank:
+				repeat: 6,
+				startangle: 30,
+				guns:
+					type: croc,
+					width: 60,
+					length: 110,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	layer 3:
+		sides: 4,
+		spin: 1,
+		size: 1.8,
+		color: '#4b6cb7',
+		guns:
+			flank:
+				repeat: 4,
+				startangle: 0,
+				guns:
+					type: auto,
+					width: 50,
+					length: 100,
+					delay: 0,
+					offset: 0,
+					angle: 0,
+					bullet: -1,
+
+	stats:
+		correction: 7,
+		reload: 7,
+		damage: 7,
+		speed: 7,
+		life: 7,
+		fov: 7,
+		bodydmg: 7,
+		healthregen: 7,
+		maxhealth: 7,
+		movespeed: 7,
