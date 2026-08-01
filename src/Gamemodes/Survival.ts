@@ -20,7 +20,7 @@ import Client from "../Client";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";
-import TankBody from "../Entity/Tank/TankBody";
+import TankBody from "../../entities/TankBody";
 
 import ShapeManager from "../Misc/ShapeManager";
 import { ArenaFlags, ClientBound } from "../Const/Enums";

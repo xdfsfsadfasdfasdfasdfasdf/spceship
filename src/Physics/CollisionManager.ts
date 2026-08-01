@@ -16,7 +16,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-import ObjectEntity from "../Entity/Object";
+import ObjectEntity from "../../entities/Object";
 import PackedEntitySet from "./PackedEntitySet";
 
 export default interface CollisionManager {

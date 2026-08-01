@@ -19,36 +19,27 @@
 import Client from "../Client"
 import { AccessLevel, maxPlayerLevel } from "../config";
 
-import ObjectEntity from "../Entity/Object";
-import LivingEntity from "../Entity/Live";
+import ObjectEntity from "../../entities/Object";
+import LivingEntity from "../../entities/Live";
 
-import AbstractBoss from "../Entity/Boss/AbstractBoss";
-import Defender from "../Entity/Boss/Defender";
-import FallenBooster from "../Entity/Boss/FallenBooster";
-import FallenOverlord from "../Entity/Boss/FallenOverlord";
-import Guardian from "../Entity/Boss/Guardian";
-import Summoner from "../Entity/Boss/Summoner";
+import AbstractBoss from "../../entities/AbstractBoss";
+import ArenaCloser from "../../entities/ArenaCloser";
 
-import ArenaCloser from "../Entity/Misc/ArenaCloser";
-import FallenAC from "../Entity/Misc/Boss/FallenAC";
-import FallenSpike from "../Entity/Misc/Boss/FallenSpike";
-import FallenMegaTrapper from "../Entity/Misc/Boss/FallenMegaTrapper";
+import Mothership from "../../entities/Mothership";
+import Dominator from "../../entities/Dominator";
 
-import Mothership from "../Entity/Misc/Mothership";
-import Dominator from "../Entity/Misc/Dominator";
+import AbstractShape from "../../entities/AbstractShape";
+import Crasher from "../../entities/Crasher";
+import Pentagon from "../../entities/Pentagon";
+import Square from "../../entities/Square";
+import Triangle from "../../entities/Triangle";
 
-import AbstractShape from "../Entity/Shape/AbstractShape";
-import Crasher from "../Entity/Shape/Crasher";
-import Pentagon from "../Entity/Shape/Pentagon";
-import Square from "../Entity/Shape/Square";
-import Triangle from "../Entity/Shape/Triangle";
+import AutoTurret from "../../entities/AutoTurret";
+import Bullet from "../../entities/Bullet";
+import TankBody from "../../entities/TankBody";
 
-import AutoTurret from "../Entity/Tank/AutoTurret";
-import Bullet from "../Entity/Tank/Projectile/Bullet";
-import TankBody from "../Entity/Tank/TankBody";
-
-import { TeamEntity } from "../Entity/Misc/TeamEntity";
-import { AIState } from "../Entity/AI";
+import { TeamEntity } from "../../entities/TeamEntity";
+import { AIState } from "../../entities/AI";
 import { Entity, EntityStateFlags } from "../Native/Entity";
 import { saveToVLog } from "../util";
 import { ClientBound, Stat, StatCount, PhysicsFlags, StyleFlags, Tank } from "./Enums";
@@ -342,14 +333,14 @@ export const commandCallbacks = {
 
         const game = client.camera?.game;
         const TEntity = new Map([
-            ["Defender", Defender],
-            ["Summoner", Summoner],
-            ["Guardian", Guardian],
-            ["FallenOverlord", FallenOverlord],
-            ["FallenBooster", FallenBooster],
-            ["FallenAC", FallenAC],
-            ["FallenSpike", FallenSpike],
-            ["FallenMegaTrapper", FallenMegaTrapper],
+            ["Defender", AbstractBoss],
+            ["Summoner", AbstractBoss],
+            ["Guardian", AbstractBoss],
+            ["FallenOverlord", AbstractBoss],
+            ["FallenBooster", AbstractBoss],
+            ["FallenAC", AbstractBoss],
+            ["FallenSpike", AbstractBoss],
+            ["FallenMegaTrapper", AbstractBoss],
             ["ArenaCloser", ArenaCloser],
             ["Mothership", Mothership],
             ["Crasher", Crasher],

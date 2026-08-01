@@ -73,6 +73,7 @@ export class SpclngParser {
         let currentLayer: ParsedLayer | null = null;
         let currentGun: ParsedGun | null = null;
         let currentFlank: ParsedFlank | null = null;
+        const branchStack: { indent: number; name: string }[] = [];
 
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
@@ -83,6 +84,47 @@ export class SpclngParser {
             }
             const trimmed = line.trim();
             if (!trimmed) continue;
+
+            if (trimmed === "branch:" || trimmed.startsWith("branch:")) {
+                currentSection = "global_branch";
+                currentTank = null;
+                branchStack.length = 0;
+                continue;
+            }
+
+            if (currentSection === "global_branch") {
+                const indentMatch = line.match(/^(\s*)/);
+                const indentStr = indentMatch ? indentMatch[1] : "";
+                let indentLevel = 0;
+                for (const char of indentStr) {
+                    if (char === "\t") indentLevel++;
+                    else if (char === " ") indentLevel += 0.25;
+                }
+                indentLevel = Math.round(indentLevel);
+
+                const tankName = trimmed.replace(/^['"]|['"],?$/g, "").replace(/;$/, "").trim();
+                if (tankName && tankName !== "...") {
+                    while (branchStack.length > 0 && branchStack[branchStack.length - 1].indent >= indentLevel) {
+                        branchStack.pop();
+                    }
+
+                    if (branchStack.length > 0) {
+                        const parentName = branchStack[branchStack.length - 1].name;
+                        const parentTank = tanks.find(t =>
+                            t.name.toLowerCase() === parentName.toLowerCase() ||
+                            t.displayname.toLowerCase() === parentName.toLowerCase()
+                        );
+                        if (parentTank) {
+                            if (!parentTank.branchto.includes(tankName)) {
+                                parentTank.branchto.push(tankName);
+                            }
+                        }
+                    }
+
+                    branchStack.push({ indent: indentLevel, name: tankName });
+                }
+                continue;
+            }
 
             const indent = line.search(/\S/);
 
@@ -195,14 +237,33 @@ export class SpclngParser {
                     currentFlank.repeat = Number(valStr) || 1;
                 } else if (key === "startangle") {
                     if (currentFlank) currentFlank.startangle = Number(valStr) || 0;
-                } else if (key === "type") {
-                    const gunObj: ParsedGun = { type: valStr };
+                } else if (key === "auto") {
+                    const gunObj: ParsedGun & { isAuto?: boolean } = { type: "auto", isAuto: true };
                     if (currentFlank) {
                         currentFlank.guns.push(gunObj);
                     } else {
                         currentLayer.guns.push(gunObj);
                     }
                     currentGun = gunObj;
+                } else if (key === "type") {
+                    if (currentGun) {
+                        currentGun.type = valStr;
+                        const lower = valStr.toLowerCase();
+                        if (lower === "auto") {
+                            (currentGun as any).isAuto = true;
+                        } else if (lower === "drone" || lower === "trap" || lower === "skimmer" || lower === "rocket" || lower === "minion" || lower === "necrodrone" || lower === "swarm") {
+                            (currentGun as any).isAuto = false;
+                        }
+                    } else {
+                        const isAuto = valStr.toLowerCase() === "auto";
+                        const gunObj: ParsedGun & { isAuto?: boolean } = { type: valStr, isAuto: isAuto ? true : undefined };
+                        if (currentFlank) {
+                            currentFlank.guns.push(gunObj);
+                        } else {
+                            currentLayer.guns.push(gunObj);
+                        }
+                        currentGun = gunObj;
+                    }
                 } else if (currentGun) {
                     (currentGun as any)[key] = this.parseValue(valStr);
                 }
@@ -464,6 +525,7 @@ export class SpclngParser {
                 postAddon,
                 sides,
                 borderWidth: 15,
+                spin: raw.layers[0]?.spin || undefined,
                 barrels,
                 stats: [
                     { name: "Movement Speed", max: raw.stats.movespeed ?? 7 },
@@ -498,9 +560,20 @@ export class SpclngParser {
         const trapezoidDirection = g.aspect !== undefined && g.aspect < 0 ? Math.PI : 0;
 
         let projType: any = "bullet";
-        if (g.type === "trap") projType = "trap";
-        else if (g.type === "drone") projType = "drone";
-        else if (g.type === "auto") projType = "bullet";
+        const t = (g.type || "").toLowerCase();
+        if (t === "trap") projType = "trap";
+        else if (t === "drone") projType = "drone";
+        else if (t === "skimmer") projType = "skimmer";
+        else if (t === "rocket") projType = "rocket";
+        else if (t === "minion") projType = "minion";
+        else if (t === "necrodrone") projType = "necrodrone";
+        else if (t === "swarm") projType = "swarm";
+        else if (t === "flame") projType = "flame";
+        else if (t === "wall") projType = "wall";
+        else if (t === "croc") projType = "croc";
+        else if (g.bullet === -2) projType = "trap";
+        else if (g.bullet === -6) projType = "drone";
+        else if (g.bullet === 0) projType = "minion";
 
         const bulletDef: BulletDefinition = {
             type: projType,
@@ -512,6 +585,8 @@ export class SpclngParser {
             lifeLength: 1,
             absorbtionFactor: 1
         };
+
+        const isAuto = g.type === "auto" || Boolean((g as any).isAuto);
 
         return {
             angle: totalAngleRad,
@@ -525,8 +600,10 @@ export class SpclngParser {
             trapezoidDirection,
             addon: null,
             droneCount: typeof g.children === "number" ? g.children : undefined,
-            canControlDrones: g.type === "drone",
-            forceFire: g.type === "auto" ? true : (g.fires === false ? false : undefined),
+            canControlDrones: g.type === "drone" || g.type === "minion",
+            forceFire: isAuto ? true : (g.fires === false ? false : undefined),
+            isAuto: isAuto ? true : undefined,
+            range: g.range !== undefined ? g.range : undefined,
             bullet: bulletDef
         };
     }

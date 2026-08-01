@@ -19,8 +19,8 @@
 import type GameServer from "../Game";
 import type Client from "../Client";
 import Writer from "../Coder/Writer";
-import TankBody from "../Entity/Tank/TankBody";
-import ObjectEntity from "../Entity/Object";
+import TankBody from "../../entities/TankBody";
+import ObjectEntity from "../../entities/Object";
 
 import { Entity, EntityStateFlags } from "./Entity";
 import { CameraGroup, RelationsGroup } from "./FieldGroups";

@@ -18,13 +18,13 @@
 
 import GameServer from "../../Game";
 import ArenaEntity from "../../Native/Arena";
-import ObjectEntity from "../../Entity/Object";
+import ObjectEntity from "../../../entities/Object";
 
-import Pentagon from "../../Entity/Shape/Pentagon";
+import Pentagon from "../../../entities/Pentagon";
 
 import { Color, ArenaFlags, PhysicsFlags } from "../../Const/Enums";
 import { NameGroup } from "../../Native/FieldGroups";
-import AbstractShape from "../../Entity/Shape/AbstractShape";
+import AbstractShape from "../../../entities/AbstractShape";
 import { SandboxShapeManager } from "../Sandbox";
 
 /**

@@ -108,6 +108,14 @@ app.get("/*", (res, req) => {
             case "/colors":
                 res.writeStatus("200 OK").end(JSON.stringify(ColorsHexCode));
                 return;
+            case "/changelog":
+                const changelogPath = fs.existsSync("./changelog.txt") ? "./changelog.txt" : config.clientLocation + "/changelog.txt";
+                if (fs.existsSync(changelogPath)) {
+                    res.writeStatus("200 OK").writeHeader("Content-Type", "text/plain; charset=utf-8").end(fs.readFileSync(changelogPath, "utf-8"));
+                } else {
+                    res.writeStatus("404 Not Found").end("");
+                }
+                return;
         }
     }
 
@@ -134,6 +142,10 @@ app.get("/*", (res, req) => {
             case "/config.js":
                 file = config.clientLocation + "/config.js";
                 contentType = "application/javascript";
+                break;
+            case "/changelog.txt":
+                file = fs.existsSync("./changelog.txt") ? "./changelog.txt" : config.clientLocation + "/changelog.txt";
+                contentType = "text/plain";
                 break;
         }
 

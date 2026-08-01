@@ -18,10 +18,10 @@
 
 import Client from "../Client";
 import { Color, ColorsHexCode, ArenaFlags, ValidScoreboardIndex, ClientBound } from "../Const/Enums";
-import Dominator from "../Entity/Misc/Dominator";
-import TeamBase from "../Entity/Misc/TeamBase";
-import { TeamEntity } from "../Entity/Misc/TeamEntity";
-import TankBody from "../Entity/Tank/TankBody";
+import Dominator from "../../entities/Dominator";
+import TeamBase from "../../entities/TeamBase";
+import { TeamEntity } from "../../entities/TeamEntity";
+import TankBody from "../../entities/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";

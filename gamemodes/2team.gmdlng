@@ -1,0 +1,69 @@
+/* 2 team */
+
+label: '2TDM'
+/* label in-game*/
+
+teams: 2
+/* number of teams
+0 is FFA
+1 is blue
+2 is br
+3 is brg
+4 is brgp
+5 is brgpy
+6 is brgpyo
+7 is brgpyow
+8 is brgpyowt */
+
+size: 11950
+/* size */
+
+bossspawn: true
+/* do low end bosses spawn */
+
+type: tdm 
+
+/*
+tdm: teams
+dom: domination
+mot: mothership
+bsf: bosswar
+tag: tag
+*/
+
+isaval: true
+/* can it be accessible in game */
+
+/* grid stuff */
+gridx: 10
+gridy: 10
+grid:
+
+bbeeeeeerr
+bbeeeeeerr
+eeeeeeeeee
+eeennnneee
+eeennnneee
+eeennnneee
+eeennnneee
+eeeeeeeeee
+rreeeeeebb
+rreeeeeebb
+
+/*
+b: blue team
+r: red team
+g: green team
+p: purple team
+y: yellow team
+o: orange team
+w: brown team
+t: teal team
+
+n: nest
+s: boss spawn
+z: nest + boss spawn
+e: empty
+h: hallways (in maze)
+*/
+

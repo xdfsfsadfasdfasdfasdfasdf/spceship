@@ -18,15 +18,15 @@
 
 import GameServer from "../Game";
 
-import ObjectEntity from "../Entity/Object";
-import LivingEntity from "../Entity/Live";
+import ObjectEntity from "../../entities/Object";
+import LivingEntity from "../../entities/Live";
 
 import CollisionManager from "../Physics/CollisionManager";
 import HashGrid from "../Physics/HashGrid";
 
 import { CameraEntity } from "./Camera";
 import { Entity } from "./Entity";
-import { AI } from "../Entity/AI";
+import { AI } from "../../entities/AI";
 import { removeFast } from "../util";
 import { EntityTags } from "../Const/Enums";
 

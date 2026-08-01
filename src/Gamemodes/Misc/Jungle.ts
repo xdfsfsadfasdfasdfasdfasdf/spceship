@@ -20,10 +20,10 @@ import GameServer from "../../Game";
 import ArenaEntity from "../../Native/Arena";
 
 import ShapeManager from "../../Misc/ShapeManager";
-import TankBody from "../../Entity/Tank/TankBody";
-import AbstractShape from "../../Entity/Shape/AbstractShape";
+import TankBody from "../../../entities/TankBody";
+import AbstractShape from "../../../entities/AbstractShape";
 import Client from "../../Client";
-import { TeamEntity } from "../../Entity/Misc/TeamEntity";
+import { TeamEntity } from "../../../entities/TeamEntity";
 import { Color } from "../../Const/Enums";
 import { SandboxShapeManager } from "../Sandbox";
 

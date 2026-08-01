@@ -169,6 +169,8 @@ Module.loadGamemodeButtons = () => {
     Module.rawExports.loadVectorDone(MOD_CONFIG.memory.gamemodeButtons + 12); // toggle vector memory guard
 };
 
+let CHANGELOG = [];
+
 // Refreshes UI Components
 Module.loadChangelog = (changelog) => {
     const vec = new $Vector(MOD_CONFIG.memory.changelog, "cstr", 12);
@@ -339,14 +341,18 @@ Module.todo.push([() => {
     return [
         fetch(`${CDN}build_${BUILD}.wasm.wasm`).then(res => res.arrayBuffer()),
         fetch(`${API_URL}servers`).then(res => res.json()),
-        fetch(`${API_URL}tanks`).then(res => res.json())
+        fetch(`${API_URL}tanks`).then(res => res.json()),
+        fetch(`${API_URL}changelog`).then(res => res.text()).catch(() => fetch("/changelog.txt").then(res => res.text()).catch(() => ""))
     ];
 }, true]);
 
-Module.todo.push([(dependency, servers, tanks) => {
+Module.todo.push([(dependency, servers, tanks, changelogText) => {
     Module.status = "INSTANTIATE";
     Module.servers = servers;
     Module.tankDefinitions = tanks;
+    if (changelogText) {
+        CHANGELOG = changelogText.split(/\r?\n/);
+    }
     
     const parser = new WailParser(new Uint8Array(dependency));
     
@@ -672,6 +678,11 @@ Module.todo.push([() => {
             Module.commandDefinitions = await fetch(`${API_URL}commands`).then(res => res.json());
             Module.loadCommands(Module.commandDefinitions); // remote
             Module.loadCommands(); // local
+        },
+        reloadChangelog: async () => {
+            const text = await fetch(`${API_URL}changelog`).then(res => res.text()).catch(() => fetch("/changelog.txt").then(res => res.text()).catch(() => ""));
+            CHANGELOG = text ? text.split(/\r?\n/) : [];
+            Module.loadChangelog();
         },
         // sets changelog (input: [...""])
         changeChangelog: (lines) => Module.loadChangelog(lines),
@@ -1384,6 +1395,16 @@ class ASMConsts {
         };
         ws.onmessage = function(e) {
             const view = new Uint8Array(e.data);
+            if(view[0] === 0x03) { // ClientBound.Notification
+                let at = 1;
+                const nameEnd = view.indexOf(0, at);
+                const decoder = new TextDecoder();
+                const text = nameEnd !== -1 ? decoder.decode(view.subarray(at, nameEnd)) : "";
+                if (text && window.chatSystem && window.chatSystem.addMessage) {
+                    window.chatSystem.addMessage("System", text);
+                }
+                return;
+            }
             if(view[0] === 0x0C) { // ClientBound.Chat
                 let at = 1;
                 const senderId = (view[at] & 0xff) | ((view[at+1] & 0xff) << 8) | ((view[at+2] & 0xff) << 16) | ((view[at+3] & 0xff) << 24);

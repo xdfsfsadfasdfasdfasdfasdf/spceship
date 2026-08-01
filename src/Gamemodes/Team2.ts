@@ -20,10 +20,10 @@ import GameServer from "../Game";
 import ArenaEntity from "../Native/Arena";
 import Client from "../Client";
 
-import TeamBase from "../Entity/Misc/TeamBase";
-import TankBody from "../Entity/Tank/TankBody";
+import TeamBase from "../../entities/TeamBase";
+import TankBody from "../../entities/TankBody";
 
-import { TeamEntity } from "../Entity/Misc/TeamEntity";
+import { TeamEntity } from "../../entities/TeamEntity";
 import { Color } from "../Const/Enums";
 import { randomFrom, getRandomPosition } from "../util";
 

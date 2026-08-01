@@ -1,5 +1,5 @@
 import ArenaEntity from "../Native/Arena";
-import MazeWall from "../Entity/Misc/MazeWall";
+import MazeWall from "../../entities/MazeWall";
 import { VectorAbstract } from "../Physics/Vector";
 
 export interface MazeGeneratorConfig {

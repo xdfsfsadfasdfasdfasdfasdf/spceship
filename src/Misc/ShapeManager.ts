@@ -19,11 +19,11 @@
 import ArenaEntity from "../Native/Arena";
 import GameServer from "../Game";
 
-import Crasher from "../Entity/Shape/Crasher";
-import Pentagon from "../Entity/Shape/Pentagon";
-import Triangle from "../Entity/Shape/Triangle";
-import Square from "../Entity/Shape/Square";
-import AbstractShape from "../Entity/Shape/AbstractShape";
+import Crasher from "../../entities/Crasher";
+import Pentagon from "../../entities/Pentagon";
+import Triangle from "../../entities/Triangle";
+import Square from "../../entities/Square";
+import AbstractShape from "../../entities/AbstractShape";
 import { removeFast } from "../util";
 
 /**

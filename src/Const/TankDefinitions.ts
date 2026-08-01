@@ -94,8 +94,12 @@ export interface BarrelDefinition {
     canControlDrones?: boolean;
     /** Whether or not the barrel should always shoot (Trapper Dominator, Defender). */
     forceFire?: boolean;
+    /** Whether or not this barrel is an auto turret. */
+    isAuto?: boolean;
     /** Barrel color - by default this is set to the 'Barrel' color id. */
     color?: Color;
+    /** Range for auto turrets / targeting. */
+    range?: number;
     /** The definition of the bullet that is shot from the barrel. */
     bullet: BulletDefinition;
 }
@@ -165,6 +169,8 @@ export interface TankDefinition {
     borderWidth: number;
     /** Can be used to override the tank body's base size. */
     baseSizeOverride?: number;
+    /** The passive spin rate of the tank layer. */
+    spin?: number;
     /** The tank's barrels. */
     barrels: BarrelDefinition[];
     /** The tank's stat names and limits. */

@@ -17,13 +17,7 @@
 */
 
 import ArenaEntity from "../Native/Arena";
-
-import AbstractBoss from "../Entity/Boss/AbstractBoss";
-import Guardian from "../Entity/Boss/Guardian";
-import Summoner from "../Entity/Boss/Summoner";
-import FallenOverlord from "../Entity/Boss/FallenOverlord";
-import FallenBooster from "../Entity/Boss/FallenBooster";
-import Defender from "../Entity/Boss/Defender";
+import AbstractBoss from "../../entities/AbstractBoss";
 
 import { bossSpawningInterval } from "../config";
 import { VectorAbstract } from "../Physics/Vector";
@@ -36,8 +30,6 @@ export default class BossManager {
     public arena: ArenaEntity;
     /** The current boss spawned into the game */
     public boss: AbstractBoss | null = null;
-    /** A random boss will be selected out of these. */
-    public bossClasses: typeof AbstractBoss[] = [Guardian, Summoner, FallenOverlord, FallenBooster, Defender];
 
     public constructor(arena: ArenaEntity) {
         this.arena = arena;
@@ -52,8 +44,7 @@ export default class BossManager {
     }
     
     public spawnBoss() {
-        const TBoss = this.bossClasses[Math.floor(Math.random() * this.bossClasses.length)];
-        this.boss = new TBoss(this.arena.game);
+        this.boss = new AbstractBoss(this.arena.game);
         
         const { x, y } = this.findBossSpawnLocation();
         

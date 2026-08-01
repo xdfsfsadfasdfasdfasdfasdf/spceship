@@ -18,9 +18,9 @@
 
 import Client from "../Client";
 import { Color, ArenaFlags, TeamFlags, ValidScoreboardIndex } from "../Const/Enums";
-import Mothership from "../Entity/Misc/Mothership";
-import { TeamEntity } from "../Entity/Misc/TeamEntity";
-import TankBody from "../Entity/Tank/TankBody";
+import Mothership from "../../entities/Mothership";
+import { TeamEntity } from "../../entities/TeamEntity";
+import TankBody from "../../entities/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";

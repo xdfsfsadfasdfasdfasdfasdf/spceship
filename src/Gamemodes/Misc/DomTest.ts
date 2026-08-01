@@ -21,8 +21,8 @@ import ArenaEntity from "../../Native/Arena";
 
 import ShapeManager from "../../Misc/ShapeManager";
 import { NameFlags, Tank } from "../../Const/Enums";
-import Dominator from "../../Entity/Misc/Dominator";
-import TeamBase from "../../Entity/Misc/TeamBase";
+import Dominator from "../../../entities/Dominator";
+import TeamBase from "../../../entities/TeamBase";
 import { SandboxShapeManager } from "../Sandbox";
 
 /**

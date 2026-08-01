@@ -20,7 +20,7 @@ import chalk from "chalk";
 import { inspect } from "util";
 import { doVerboseLogs } from "./config";
 import { VectorAbstract } from "./Physics/Vector";
-import ObjectEntity from "./Entity/Object";
+import ObjectEntity from "../entities/Object";
 
 /** Logs data prefixed with the Date. */
 export const log = (...args: any[]) => {

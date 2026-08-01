@@ -20,9 +20,9 @@ import GameServer from "../../Game";
 import ArenaEntity from "../../Native/Arena";
 
 import ShapeManager from "../../Misc/ShapeManager";
-import { Inputs } from "../../Entity/AI";
+import { Inputs } from "../../../entities/AI";
 import { CameraEntity } from "../../Native/Camera";
-import TankBody from "../../Entity/Tank/TankBody";
+import TankBody from "../../../entities/TankBody";
 import { Color, PhysicsFlags, StyleFlags, Tank } from "../../Const/Enums";
 import { SandboxShapeManager } from "../Sandbox";
 import Client from "../../Client";

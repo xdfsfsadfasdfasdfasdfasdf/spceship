@@ -18,17 +18,17 @@
 
 import Client from "../Client";
 import { Color, ColorsHexCode, ArenaFlags, ValidScoreboardIndex, ClientBound } from "../Const/Enums";
-import { TeamEntity } from "../Entity/Misc/TeamEntity";
-import TankBody from "../Entity/Tank/TankBody";
-import LivingEntity from "../Entity/Live";
+import { TeamEntity } from "../../entities/TeamEntity";
+import TankBody from "../../entities/TankBody";
+import LivingEntity from "../../entities/Live";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";
 import { shuffleArray } from "../util";
 import { tps, scoreboardUpdateInterval } from "../config";
 
-import TeamBase from "../Entity/Misc/TeamBase"
-import Dominator from "../Entity/Misc/Dominator"
+import TeamBase from "../../entities/TeamBase"
+import Dominator from "../../entities/Dominator"
 
 import ShapeManager from "../Misc/ShapeManager";
 

@@ -259,11 +259,14 @@
             background: #38bdf8;
           }
 
-          /* Chat Widget (Top Left) */
+          /* Chat Widget (Centered Right) */
           #chatContainer {
             position: fixed;
-            top: 15px;
-            left: 15px;
+            top: 45%;
+            transform: translateY(-50%);
+            right: 20px;
+            left: auto;
+            bottom: auto;
             width: 310px;
             background: rgba(15, 10, 22, 0.75);
             border: 1px solid rgba(168, 85, 247, 0.4);
@@ -275,10 +278,6 @@
             display: none;
             flex-direction: column;
             box-sizing: border-box;
-            transition: top 0.25s ease;
-          }
-          #chatContainer.has-upgrades {
-            top: 250px;
           }
           #chatFeed {
             display: flex;

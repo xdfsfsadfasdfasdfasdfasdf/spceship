@@ -20,14 +20,13 @@ import GameServer from "../../Game";
 import ArenaEntity from "../../Native/Arena";
 
 import ShapeManager from "../../Misc/ShapeManager";
-import TankBody from "../../Entity/Tank/TankBody";
+import TankBody from "../../../entities/TankBody";
 import { CameraEntity } from "../../Native/Camera";
-import { Inputs } from "../../Entity/AI";
+import { Inputs } from "../../../entities/AI";
 import { DevTank } from "../../Const/DevTankDefinitions";
 import { ArenaFlags, Tank } from "../../Const/Enums";
 import Client from "../../Client";
-import FallenSpike from "../../Entity/Misc/Boss/FallenSpike";
-import FallenOverlord from "../../Entity/Boss/FallenOverlord";
+import AbstractBoss from "../../../entities/AbstractBoss";
 /**
  * Only spawns crashers
  */
@@ -50,9 +49,9 @@ export default class TestingArena extends ArenaEntity {
         this.updateBounds(4000, 4000);
         this.arenaData.values.flags |= ArenaFlags.canUseCheats;
         setTimeout(() => {
-            new FallenOverlord(game);
-            new FallenSpike(game);
-        }, 5000)
+            new AbstractBoss(game);
+            new AbstractBoss(game);
+        }, 5000);
 
         // const tank1 = this.spawnTestTank(Tank.Booster);
         // const tank2 = this.spawnTestTank(Tank.Annihilator);

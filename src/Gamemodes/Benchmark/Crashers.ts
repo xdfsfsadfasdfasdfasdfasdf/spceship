@@ -16,8 +16,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-import AbstractShape from "../../Entity/Shape/AbstractShape";
-import Crasher from "../../Entity/Shape/Crasher";
+import AbstractShape from "../../../entities/AbstractShape";
+import Crasher from "../../../entities/Crasher";
 import ShapeManager from "../../Misc/ShapeManager";
 import GameServer from "../../Game";
 import ArenaEntity, { ArenaState } from "../../Native/Arena";

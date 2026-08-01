@@ -19,16 +19,16 @@
 import GameServer from "../Game";
 import ShapeManager from "../Misc/ShapeManager";
 import BossManager from "../Misc/BossManager";
-import TankBody from "../Entity/Tank/TankBody";
-import ArenaCloser from "../Entity/Misc/ArenaCloser";
-import AbstractBoss from "../Entity/Boss/AbstractBoss";
+import TankBody from "../../entities/TankBody";
+import ArenaCloser from "../../entities/ArenaCloser";
+import AbstractBoss from "../../entities/AbstractBoss";
 
 import { VectorAbstract } from "../Physics/Vector";
 import { ArenaGroup, TeamGroup } from "./FieldGroups";
 import { Entity } from "./Entity";
 import { Color, ArenaFlags, CameraFlags, Tank, ValidScoreboardIndex } from "../Const/Enums";
 import { PI2, randomFrom, saveToLog } from "../util";
-import { TeamEntity, TeamGroupEntity } from "../Entity/Misc/TeamEntity";
+import { TeamEntity, TeamGroupEntity } from "../../entities/TeamEntity";
 
 import Client from "../Client";
 
