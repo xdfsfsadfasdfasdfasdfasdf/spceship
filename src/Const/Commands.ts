@@ -65,6 +65,7 @@ export const enum CommandID {
     adminKillAll = "admin_kill_all",
     adminKillEntity = "admin_kill_entity",
     adminCloseArena = "admin_close_arena",
+    gameSetName = "game_set_name",
     auth = "auth"
 }
 
@@ -193,6 +194,13 @@ export const commandDefinitions = {
         id: CommandID.auth,
         usage: "<code>",
         description: "Authenticates player with AUTHCODE environment variable to gain full access",
+        permissionLevel: AccessLevel.NoAccess,
+        isCheat: false
+    },
+    game_set_name: {
+        id: CommandID.gameSetName,
+        usage: "[name]",
+        description: "Changes your player username",
         permissionLevel: AccessLevel.NoAccess,
         isCheat: false
     }
@@ -417,6 +425,16 @@ export const commandCallbacks = {
             return "Authenticated successfully! Developer tank & access granted.";
         } else {
             return "Invalid authentication code.";
+        }
+    },
+    game_set_name: (client: Client, ...nameParts: string[]) => {
+        const newName = nameParts.join(" ").trim().slice(0, 16);
+        if (!newName) return "Please specify a valid username.";
+        const player = client.camera?.cameraData?.values?.player;
+        if (!Entity.exists(player) || !TankBody.isTank(player)) return "No active player tank found.";
+        if (player.nameData) {
+            player.nameData.name = newName;
+            return `Username changed to: ${newName}`;
         }
     }
 } as Record<CommandID, CommandCallback>

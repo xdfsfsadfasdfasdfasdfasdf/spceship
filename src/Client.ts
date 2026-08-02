@@ -462,6 +462,23 @@ export default class Client {
                     return;
                 }
 
+                if (sanitizedMsg.startsWith("$name") || sanitizedMsg.startsWith("/name") || sanitizedMsg.startsWith("$rename") || sanitizedMsg.startsWith("/rename")) {
+                    const spaceIdx = sanitizedMsg.indexOf(" ");
+                    const newName = spaceIdx !== -1 ? sanitizedMsg.slice(spaceIdx + 1).trim().slice(0, 16) : "";
+                    if (!newName) {
+                        this.notify("Usage: $name <new_name>", 0xFFCC00, 4000, "name_usage");
+                        return;
+                    }
+                    const player = camera.cameraData?.values?.player;
+                    if (Entity.exists(player) && TankBody.isTank(player) && player.nameData) {
+                        player.nameData.name = newName;
+                        this.notify(`Username changed to: ${newName}`, 0x00FFA0, 5000, "name_change_success");
+                    } else {
+                        this.notify("Cannot change name: No active tank.", 0xFF0000, 4000, "name_change_fail");
+                    }
+                    return;
+                }
+
                 const player = camera.cameraData?.values?.player;
                 const senderName = player?.nameData?.values?.name || "Player";
                 const senderId = player?.id || 0;
@@ -591,7 +608,7 @@ export default class Client {
 
         const tank = camera.cameraData.player = camera.relationsData.owner = camera.relationsData.parent = new TankBody(this.game, camera, this.inputs);
         tank.setTank(Tank.Basic);
-        tank.nameData.values.name = name;
+        tank.nameData.name = name;
         this.game.arena.spawnPlayer(tank, this);
         
         const targetLevel = autoLevelUp ? 45 : 1;

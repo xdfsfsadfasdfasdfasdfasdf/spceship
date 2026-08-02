@@ -347,25 +347,36 @@ window.setupInput = () => {
     const textInputContainer = document.getElementById("textInputContainer");
     const textInput = Module?.textInput || document.getElementById("textInput");
 
+    const focusTextInput = (e) => {
+        if (e) e.stopPropagation();
+        const el = Module?.textInput || textInput;
+        if (el) {
+            el.disabled = false;
+            if (document.activeElement !== el) {
+                el.focus();
+            }
+            window.setTyping(true);
+        }
+    };
+
     if (textInputContainer) {
         ["mousedown", "mouseup", "click", "pointerdown", "pointerup"].forEach(eventType => {
-            textInputContainer.addEventListener(eventType, e => {
-                e.stopPropagation();
-            });
+            textInputContainer.addEventListener(eventType, focusTextInput);
         });
     }
 
     if (textInput) {
         ["mousedown", "mouseup", "click", "pointerdown", "pointerup"].forEach(eventType => {
-            textInput.addEventListener(eventType, e => {
-                e.stopPropagation();
-            });
+            textInput.addEventListener(eventType, focusTextInput);
         });
         textInput.onfocus = () => {
             window.setTyping(true);
         };
         textInput.onblur = () => {
             window.setTyping(false);
+        };
+        textInput.oninput = () => {
+            window.setTyping(true);
         };
         textInput.onkeydown = e => {
             e.stopPropagation();

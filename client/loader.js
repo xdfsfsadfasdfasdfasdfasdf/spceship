@@ -850,6 +850,9 @@ class ASMConsts {
     }
 
     static setTextInput(value) {
+        if (!Module.textInput) return;
+        if (document.activeElement === Module.textInput) return;
+        if (Module.textInputContainer && Module.textInputContainer.style.display !== "none" && Module.textInput.value !== "") return;
         Module.textInput.value = Module.UTF8ToString(value);
     }
 
@@ -957,13 +960,15 @@ class ASMConsts {
         Module.textInputContainer.style.position = "absolute";
         Module.textInputContainer.style.left = window.unscale(left) + "px";
         Module.textInputContainer.style.top = window.unscale(top) + "px";
-        Module.textInput.style.width = window.unscale(width * 0.96) + "px";
-        Module.textInput.style.height = window.unscale(height) + "px";
-        Module.textInput.style.lineHeight = window.unscale(height * 0.9) + "px";
-        Module.textInput.style.fontSize = window.unscale(height * 0.9) + "px";
-        Module.textInput.style.paddingLeft = "5px";
-        Module.textInput.style.paddingRight = "5px";
-        Module.textInput.disabled = !enabled;
+        Module.textInputContainer.style.width = window.unscale(width) + "px";
+        Module.textInputContainer.style.height = window.unscale(height) + "px";
+        Module.textInput.style.width = "100%";
+        Module.textInput.style.height = "100%";
+        Module.textInput.style.lineHeight = window.unscale(height) + "px";
+        Module.textInput.style.fontSize = window.unscale(height * 0.65) + "px";
+        Module.textInput.style.paddingLeft = "10px";
+        Module.textInput.style.paddingRight = "10px";
+        Module.textInput.disabled = false;
         Module.textInput.focus();
 
         const chatContainer = document.getElementById("chatContainer");

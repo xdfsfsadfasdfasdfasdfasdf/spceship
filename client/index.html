@@ -67,25 +67,39 @@
             position: absolute;
             z-index: 100;
             pointer-events: auto;
+            cursor: text;
           }
     
           #textInput {
-            background-color: #12091f;
-            font-family: 'Press Start 2P', cursive, monospace;
+            background: rgba(20, 10, 35, 0.75);
+            font-family: 'Press Start 2P', cursive, monospace, sans-serif;
             color: #ffffff;
-            padding: 0 8px;
+            caret-color: #c084fc;
+            padding: 0 10px;
             border: 2px solid #a855f7;
             border-radius: 6px;
             outline: none;
             pointer-events: auto;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
             text-align: center;
             box-sizing: border-box;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: text;
+            width: 100%;
+            height: 100%;
+            transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+          }
+          #textInput::placeholder {
+            color: rgba(233, 213, 255, 0.45);
+          }
+          #textInput:hover {
+            background: rgba(30, 15, 50, 0.85);
+            border-color: #c084fc;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
           }
           #textInput:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+            background: rgba(40, 20, 65, 0.95);
+            border-color: #e9d5ff;
+            box-shadow: 0 0 25px rgba(233, 213, 255, 0.8);
           }
 
           /* Settings Button */
@@ -439,7 +453,7 @@
         <span id="loading">Loading...</span>
         <canvas id="canvas" tabindex="0" width="800" height="800"></canvas>
         <div style="font-family:'Press Start 2P'">&nbsp;</div>
-        <div id="textInputContainer"><input id="textInput"></div>
+        <div id="textInputContainer"><input id="textInput" placeholder="This is the tale of..." autocomplete="off" spellcheck="false"></div>
         
         <!-- Third party library for dynmically modifying wasm files on the fly-->
         <script src ="https://cdn.jsdelivr.net/gh/Qwokka/wail.min.js@5e32d36bd7a5e0830d1ff4b64d3587aea13f77da/wail.min.js" crossorigin="anonymous"></script>
